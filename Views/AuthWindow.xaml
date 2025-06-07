@@ -1,0 +1,96 @@
+﻿<Window x:Class="HRApp.Views.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Авторизация" Height="400" Width="250"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="126"/>
+            <!-- Информация о дате и погоде -->
+            <RowDefinition Height="Auto" MinHeight="137.51"/>
+            <!-- Поля ввода -->
+            <RowDefinition/>
+            <!-- Расширенное пространство (если нужно) -->
+            <RowDefinition Height="Auto" MinHeight="38.86"/>
+            <!-- Кнопки -->
+        </Grid.RowDefinitions>
+
+        <!-- Информация о дате, погоде, температуре, ветре -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
+            <TextBlock x:Name="DateTextBlock" FontSize="14" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="Погода: " FontWeight="Bold"/>
+                <TextBlock x:Name="WeatherTextBlock" Text="..." />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Температура: " FontWeight="Bold"/>
+                <TextBlock x:Name="TemperatureTextBlock" Text="..." />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Ветер: " FontWeight="Bold"/>
+                <TextBlock x:Name="WindTextBlock" Text="..." />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Поля ввода логина и пароля -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,10">
+            <TextBlock Text="Логин:" Width="200"/>
+            <TextBox x:Name="LoginTextBox" Width="195" Height="25"/>
+            <TextBlock Text="Пароль:" Margin="0,10,0,0" Width="200"/>
+            <!-- Для пароля используем перекрывающие элементы: PasswordBox и TextBox -->
+            <Grid Width="195">
+                <!-- PasswordBox для скрытого пароля -->
+                <PasswordBox x:Name="PasswordBox" Height="25" Visibility="Visible" Margin="-2,0,0,0"/>
+                <!-- TextBox для отображения пароля, когда включена опция "Показать пароль" -->
+                <TextBox x:Name="PasswordTextBox" Width="200" Height="25" Visibility="Collapsed" IsReadOnly="True"/>
+            </Grid>
+            <CheckBox Content="Показать пароль" Margin="0,5,0,0" 
+                      Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" Background="White" Width="200"/>
+        </StackPanel>
+
+        <!-- Кнопки "Войти" и "Отмена" -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0" Width="170">
+            <Button Content="Войти" 
+                    Width="80" 
+                    Margin="0,0,10,0" 
+                    Click="LoginButton_Click" 
+                    Background="#FF27A8E1" 
+                    BorderBrush="#FF0480B7" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    FontSize="14" 
+                    BorderThickness="1">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10"  Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Отмена" 
+                    Width="80" 
+                    Click="CancelButton_Click" 
+                    Background="#FF27A8E1" 
+                    BorderBrush="#FF0480B7" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    FontSize="14" 
+                    BorderThickness="1">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10"  Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

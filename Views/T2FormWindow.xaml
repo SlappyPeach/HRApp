@@ -1,0 +1,263 @@
+﻿<Window x:Class="HRApp.Views.T2FormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Карточка сотрудника (Форма Т-2)" Height="800" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок окна -->
+        <TextBlock Text="Карточка сотрудника (Форма Т-2)"
+               FontSize="20" FontWeight="Bold"
+               HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="0"/>
+
+        <!-- Основной контент с раскрыванием секций -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <!-- Общие сведения -->
+                <Expander Header="Общие сведения" IsExpanded="True" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <TextBox x:Name="SurenameTextBox" materialDesign:HintAssist.Hint="Фамилия *" Margin="0,5"/>
+                        <TextBox x:Name="FirstNameTextBox" materialDesign:HintAssist.Hint="Имя *" Margin="0,5"/>
+                        <TextBox x:Name="SecondNameTextBox" materialDesign:HintAssist.Hint="Отчество *" Margin="0,5"/>
+                        <TextBox x:Name="BirthDateTextBox" materialDesign:HintAssist.Hint="Дата рождения (дд.мм.гггг) *" Margin="0,5"/>
+                        <TextBox x:Name="BirthPlaceTextBox" materialDesign:HintAssist.Hint="Место рождения *" Margin="0,5"/>
+                        <TextBox x:Name="BirthPlaceOKATOTextBox" materialDesign:HintAssist.Hint="ОКАТО места рождения *" Margin="0,5"/>
+                        <ComboBox x:Name="SexComboBox" materialDesign:HintAssist.Hint="Пол *" Margin="0,5">
+                            <ComboBoxItem Content="Мужской"/>
+                            <ComboBoxItem Content="Женский"/>
+                        </ComboBox>
+                        <TextBox x:Name="CitizenshipTextBox" materialDesign:HintAssist.Hint="Гражданство *" Margin="0,5"/>
+                        <TextBox x:Name="CitizenshipOKINTextBox" materialDesign:HintAssist.Hint="ОКИН гражданства *" Margin="0,5"/>
+                        <TextBox x:Name="PositionTextBox" materialDesign:HintAssist.Hint="Должность" Margin="0,5" IsReadOnly="True"/>
+                        <TextBox x:Name="DepartmentTextBox" materialDesign:HintAssist.Hint="Структурное подразделение" Margin="0,5" IsReadOnly="True"/>
+                    </StackPanel>
+                </Expander>
+
+                <!-- Владение языками -->
+                <Expander Header="Владение языками" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <DataGrid x:Name="LanguageDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Язык *" Binding="{Binding LanguageName}" Width="*"/>
+                                <DataGridTextColumn Header="Уровень *" Binding="{Binding LanguageLevel}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить" Click="AddLanguage_Click" Margin="5"/>
+                            <Button Content="Удалить" Click="DeleteLanguage_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Образование -->
+                <Expander Header="Образование" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <DataGrid x:Name="EducationDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridComboBoxColumn Header="Уровень *" SelectedItemBinding="{Binding EducationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*">
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                            <sys:String>Полное общее</sys:String>
+                                            <sys:String>Среднее общее</sys:String>
+                                            <sys:String>Среднее профессиональное</sys:String>
+                                            <sys:String>Неполное высшее</sys:String>
+                                            <sys:String>Высшее</sys:String>
+                                        </x:Array>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                <DataGridTextColumn Header="Уровень *" Binding="{Binding EducationType}" Width="*"/>
+                                <DataGridTextColumn Header="Учреждение *" Binding="{Binding InstitutionName}" Width="*"/>
+                                <DataGridTextColumn Header="Документ *" Binding="{Binding DocName}" Width="*"/>
+                                <DataGridTextColumn Header="Номер *" Binding="{Binding DocNumber}" Width="*"/>
+                                <DataGridTextColumn Header="Год окончания *" Binding="{Binding EndYear}" Width="*"/>
+                                <DataGridTextColumn Header="Квалификация" Binding="{Binding Qualification}" Width="*"/>
+                                <DataGridTextColumn Header="Специальность" Binding="{Binding Specialization}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить" Click="AddEducation_Click" Margin="5"/>
+                            <Button Content="Удалить" Click="DeleteEducation_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Семья -->
+                <Expander Header="Семья" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <DataGrid x:Name="FamilyDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Степень родства *" Binding="{Binding Relation}" Width="*"/>
+                                <DataGridTextColumn Header="ФИО *" Binding="{Binding FIO}" Width="*"/>
+                                <DataGridTextColumn Header="Год рождения *" Binding="{Binding BirthYear}" Width="*"/>
+                                <DataGridComboBoxColumn Header="Пол" SelectedItemBinding="{Binding Gender}" Width="*">
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                            <sys:String>Мужской</sys:String>
+                                            <sys:String>Женский</sys:String>
+                                        </x:Array>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                <DataGridCheckBoxColumn Header="Налоговый вычет" Binding="{Binding HasTaxBenefit}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить" Click="AddFamily_Click" Margin="5"/>
+                            <Button Content="Удалить" Click="DeleteFamily_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Паспортные данные -->
+                <Expander Header="Паспорт" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <TextBox x:Name="PassportTypeTextBox" materialDesign:HintAssist.Hint="Тип документа (паспорт) *" Margin="0,5"/>
+                        <TextBox x:Name="PassportNumberTextBox" materialDesign:HintAssist.Hint="Серия и номер паспорта *" Margin="0,5"/>
+                        <TextBox x:Name="PassportDateTextBox" materialDesign:HintAssist.Hint="Дата выдачи (дд.мм.гггг) *" Margin="0,5"/>
+                        <TextBox x:Name="PassportPlaceTextBox" materialDesign:HintAssist.Hint="Кем выдан *" Margin="0,5"/>
+                        <TextBox x:Name="INNTextBox" materialDesign:HintAssist.Hint="ИНН *" Margin="0,5"/>
+                        <TextBox x:Name="SNILSTextBox" materialDesign:HintAssist.Hint="СНИЛС *" Margin="0,5"/>
+                    </StackPanel>
+                </Expander>
+
+                <!-- Адрес -->
+                <Expander Header="Адрес" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <TextBox x:Name="Index1TextBox" materialDesign:HintAssist.Hint="Почтовый индекс (прописка) *" Margin="0,5"/>
+                        <TextBox x:Name="Address1TextBox" materialDesign:HintAssist.Hint="Адрес прописки *" Margin="0,5"/>
+                        <TextBox x:Name="Address1DateTextBox" materialDesign:HintAssist.Hint="Дата регистрации по месту прописки * (дд.мм.гггг)" Margin="0,5"/>
+                        <TextBox x:Name="Index2TextBox" materialDesign:HintAssist.Hint="Почтовый индекс (факт.) *" Margin="0,5"/>
+                        <TextBox x:Name="Address2TextBox" materialDesign:HintAssist.Hint="Адрес проживания *" Margin="0,5"/>
+                        <TextBox x:Name="TelNumberTextBox" materialDesign:HintAssist.Hint="Номер телефона *" Margin="0,5"/>
+                        <TextBox x:Name="FamilyStatusTextBox" materialDesign:HintAssist.Hint="Семейное положение" Margin="0,5"/>
+                    </StackPanel>
+                </Expander>
+
+                <!-- Воинский учет -->
+                <Expander Header="Воинский учет" IsExpanded="False" Margin="0,0,0,5">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <TextBox x:Name="StockCategoryTextBox" materialDesign:HintAssist.Hint="Категория запаса" Margin="0,5"/>
+                            <TextBox x:Name="RankTextBox" materialDesign:HintAssist.Hint="Воинское звание" Margin="0,5"/>
+                            <TextBox x:Name="CompoundTextBox" materialDesign:HintAssist.Hint="Состав (профиль)" Margin="0,5"/>
+                            <TextBox x:Name="VYSTextBox" materialDesign:HintAssist.Hint="Полное кодовое обозначение ВУС" Margin="0,5"/>
+                            <TextBox x:Name="MilitaryServiceTextBox" materialDesign:HintAssist.Hint="Категория годности к военной службе" Margin="0,5"/>
+                            <TextBox x:Name="MillitaryOfficeTextBox" materialDesign:HintAssist.Hint="Наименование военного комиссариата" Margin="0,5"/>
+                            <TextBox x:Name="AccountingGroupTextBox" materialDesign:HintAssist.Hint="Общий учет (номер команды, партии)" Margin="0,5"/>
+                            <TextBox x:Name="SpecAccountingTextBox" materialDesign:HintAssist.Hint="Специальный учет" Margin="0,5"/>
+                            <TextBox x:Name="DeregistrationNoteTextBox" materialDesign:HintAssist.Hint="Отметка о снятии с учета" Margin="0,5"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Expander>
+
+                <!-- Банковские реквизиты -->
+                <Expander Header="Банковские реквизиты" IsExpanded="False" Margin="0,0,0,5">
+                    <StackPanel Margin="20">
+                        <TextBox x:Name="NomerSchetaTextBox" materialDesign:HintAssist.Hint="Номер счёта" Margin="0,5"/>
+                        <TextBox x:Name="BankNameTextBox" materialDesign:HintAssist.Hint="Банк получателя" Margin="0,5"/>
+                        <TextBox x:Name="BIKTextBox" materialDesign:HintAssist.Hint="БИК" Margin="0,5"/>
+                        <TextBox x:Name="KorschetTextBox" materialDesign:HintAssist.Hint="Корреспондентский счёт" Margin="0,5"/>
+                        <TextBox x:Name="KPPTextBox" materialDesign:HintAssist.Hint="КПП" Margin="0,5"/>
+                        <TextBox x:Name="OKPOTextBox" materialDesign:HintAssist.Hint="ОКПО" Margin="0,5"/>
+                        <TextBox x:Name="OGRNTextBox" materialDesign:HintAssist.Hint="ОГРН" Margin="0,5"/>
+                    </StackPanel>
+                </Expander>
+
+                <!-- Аттестации -->
+                <Expander Header="Аттестации" Margin="0,10,0,0" IsExpanded="True">
+                    <StackPanel Margin="20">
+                        <DataGrid ItemsSource="{Binding CertificationList}" x:Name="CertificationDataGrid"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=d}" Width="*" />
+                                <DataGridTextColumn Header="Решение" Binding="{Binding Resolution}" Width="*" />
+                                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="*" />
+                                <DataGridTextColumn Header="След. аттестация" Binding="{Binding NextDate, StringFormat=d}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить аттестацию" Click="AddCertification_Click" Margin="5"/>
+                            <Button Content="Удалить аттестацию" Click="DeleteCertification_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Повышение квалификации -->
+                <Expander Header="Повышение квалификации" Margin="0,10,0,0" IsExpanded="True">
+                    <StackPanel Margin="20">
+                        <DataGrid ItemsSource="{Binding CourseList}" x:Name="CourseDataGrid"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding CourseType}" Width="*"/>
+                                <DataGridTextColumn Header="Учреждение" Binding="{Binding Institution}" Width="*"/>
+                                <DataGridTextColumn Header="Документ" Binding="{Binding Certificate}" Width="*"/>
+                                <DataGridTextColumn Header="С" Binding="{Binding StartDate, StringFormat=d}" Width="*"/>
+                                <DataGridTextColumn Header="По" Binding="{Binding EndDate, StringFormat=d}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить курс" Click="AddCourse_Click" Margin="5"/>
+                            <Button Content="Удалить курс" Click="DeleteCourse_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Государственные и ведомственные награды -->
+                <Expander Header="Государственные и ведомственные награды" Margin="0,10,0,0" IsExpanded="True">
+                    <StackPanel Margin="20">
+                        <DataGrid x:Name="AwardDataGrid" ItemsSource="{Binding AwardList}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                                <DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="*"/>
+                                <DataGridTextColumn Header="Кем выдана" Binding="{Binding GrantedBy}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить" Click="AddAward_Click" Margin="5"/>
+                            <Button Content="Удалить выбранную" Click="DeleteAward_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+
+                <!-- Социальные льготы -->
+                <Expander Header="Социальные льготы" Margin="0,10,0,0" IsExpanded="True">
+                    <StackPanel Margin="20">
+                        <DataGrid x:Name="BenefitDataGrid" ItemsSource="{Binding BenefitList}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,5">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Вид" Binding="{Binding Type}" Width="*"/>
+                                <DataGridTextColumn Header="Документ" Binding="{Binding Document}" Width="*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=d}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Добавить" Click="AddBenefit_Click" Margin="5"/>
+                            <Button Content="Удалить выбранную" Click="DeleteBenefit_Click" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Нижняя панель кнопок -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Экспорт" Click="ExportDocx_Click" Margin="5"/>
+            <Button Content="Сохранить" Click="Save_Click" Margin="5"/>
+            <Button Content="Уволить" Click="Dismiss_Click" Margin="5" Background="DarkRed" Foreground="White"/>
+            <Button Content="Закрыть" Click="Close_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

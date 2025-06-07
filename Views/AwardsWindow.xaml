@@ -1,0 +1,76 @@
+﻿<Window x:Class="HRApp.Views.AwardsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Награды сотрудника" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Заголовок -->
+            <RowDefinition Height="Auto"/>
+            <!-- Выбор сотрудника -->
+            <RowDefinition Height="*"/>
+            <!-- Таблица -->
+            <RowDefinition Height="Auto"/>
+            <!-- Блок добавления -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопки -->
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Награды сотрудника" FontSize="20" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="0"/>
+
+        <!-- Выбор сотрудника -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Grid.Row="1">
+            <ComboBox x:Name="EmployeeComboBox" Width="300"
+                      materialDesign:HintAssist.Hint="Выберите сотрудника"
+                      DisplayMemberPath="Surename"
+                      SelectionChanged="EmployeeComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <!-- Таблица наград -->
+        <DataGrid x:Name="AwardsDataGrid" Grid.Row="2" AutoGenerateColumns="False"
+                  CanUserAddRows="False" IsReadOnly="True" Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Binding="{Binding AwardDate, StringFormat=d}" Width="*"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding AwardNumber}" Width="*"/>
+                <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" Width="*"/>
+                <DataGridTextColumn Header="Тип награды" Binding="{Binding AwardType}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Блок добавления новой награды -->
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <DatePicker x:Name="DateTextBox" Width="130" Margin="0,0,10,0"
+                        materialDesign:HintAssist.Hint="Дата"/>
+            <TextBox x:Name="NumberTextBox" Width="100" Margin="0,0,10,0"
+                     materialDesign:HintAssist.Hint="Номер"/>
+            <ComboBox x:Name="DepartmentComboBox" Width="150" Margin="0,0,10,0"
+                      materialDesign:HintAssist.Hint="Подразделение">
+                <ComboBoxItem Content="МКШ"/>
+                <ComboBoxItem Content="Администрация"/>
+                <ComboBoxItem Content="Мин.Образование"/>
+                <ComboBoxItem Content="Иное"/>
+            </ComboBox>
+            <ComboBox x:Name="AwardTypeComboBox" Width="150" Margin="0,0,10,0"
+                      materialDesign:HintAssist.Hint="Тип награды">
+                <ComboBoxItem Content="Грамота"/>
+                <ComboBoxItem Content="Благодарность"/>
+                <ComboBoxItem Content="Ценный подарок"/>
+                <ComboBoxItem Content="Иное"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Кнопки управления -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Добавить" Click="AddAward_Click" Margin="5"/>
+            <Button Content="Удалить" Click="DeleteAward_Click" Margin="5"/>
+            <Button Content="Сохранить" Click="SaveAwards_Click" Margin="5"/>
+            <Button Content="Экспорт" Click="ExportToExcel_Click" Margin="5"/>
+            <Button Content="Закрыть" Click="Close_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

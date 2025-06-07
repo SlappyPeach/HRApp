@@ -1,0 +1,76 @@
+﻿<Page x:Class="HRApp.Views.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Приказы">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Панель фильтрации -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <TextBox x:Name="SearchEmployeeTextBox" Width="200" Margin="0,0,10,0"
+                     materialDesign:HintAssist.Hint="Поиск по фамилии"/>
+
+            <ComboBox x:Name="SexFilterComboBox" Width="150" Margin="0,0,10,0"
+                      materialDesign:HintAssist.Hint="Пол">
+                <ComboBoxItem Content="Все" IsSelected="True"/>
+                <ComboBoxItem Content="Мужской"/>
+                <ComboBoxItem Content="Женский"/>
+            </ComboBox>
+
+            <ComboBox x:Name="OrderTypeComboBox" Width="200" Margin="0,0,10,0"
+                      materialDesign:HintAssist.Hint="Тип приказа">
+                <ComboBoxItem Content="Все" IsSelected="True"/>
+                <ComboBoxItem Content="Приказ о приёме"/>
+                <ComboBoxItem Content="Приказ о переводе"/>
+                <ComboBoxItem Content="Приказ об увольнении"/>
+                <ComboBoxItem Content="Приказ о командировке"/>
+                <ComboBoxItem Content="Приказ об отпуске"/>
+            </ComboBox>
+
+            <Button Content="Применить" Click="ApplyFilter_Click" Margin="0,0,5,0"/>
+            <Button Content="Очистить" Click="ClearFilter_Click" Margin="0,0,5,0"/>
+            <Button Content="Добавить" Click="AddOrder_Click" Margin="0,0,5,0"/>
+            <Button Content="Редактировать" Click="EditOrder_Click" Margin="0,0,5,0"/>
+            <Button Content="Экспорт" Click="ExportOrder_Click"/>
+        </StackPanel>
+
+        <!-- Основная таблица и карточка -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Таблица приказов -->
+            <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False"
+                      SelectionChanged="OrdersDataGrid_SelectionChanged"
+                      IsReadOnly="True" Margin="0,0,10,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate}" Width="*"/>
+                    <DataGridTextColumn Header="Номер приказа" Binding="{Binding RegNumber}" Width="*"/>
+                    <DataGridTextColumn Header="Дата документа" Binding="{Binding DocDate}" Width="*"/>
+                    <DataGridTextColumn Header="ФИО сотрудника" Binding="{Binding EmployeeName}" Width="*"/>
+                    <DataGridTextColumn Header="Основание" Binding="{Binding Base}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Карточка приказа -->
+            <materialDesign:Card Grid.Column="1" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Детали приказа" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="OrderNumberTextBlock" Text="Номер: " Margin="0,5"/>
+                    <TextBlock x:Name="OrderDateTextBlock" Text="Дата документа: " Margin="0,5"/>
+                    <TextBlock x:Name="OrderStartTextBlock" Text="Дата начала: " Margin="0,5"/>
+                    <TextBlock x:Name="OrderBaseTextBlock" Text="Основание: " Margin="0,5"/>
+                    <TextBlock x:Name="OrderContentTextBlock" Text="Содержание: " Margin="0,5"/>
+                    <TextBlock x:Name="OrderEmployeeTextBlock" Text="Сотрудник: " Margin="0,5"/>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Page>

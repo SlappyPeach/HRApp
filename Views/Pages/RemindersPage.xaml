@@ -1,0 +1,52 @@
+﻿<Page x:Class="HRApp.Views.RemindersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Напоминания">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Фильтры -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Top">
+            <ComboBox x:Name="ReminderTypeComboBox" Width="200" SelectionChanged="ReminderTypeComboBox_SelectionChanged">
+                <ComboBoxItem Content="Все" IsSelected="True"/>
+                <ComboBoxItem Content="Отпуска"/>
+                <ComboBoxItem Content="Командировки"/>
+                <ComboBoxItem Content="Аттестации"/>
+                <ComboBoxItem Content="Договоры"/>                
+            </ComboBox>
+
+            <ComboBox x:Name="PeriodComboBox" Width="150" Margin="10,0,0,0" SelectionChanged="PeriodComboBox_SelectionChanged">
+                <ComboBoxItem Content="3 дня"/>
+                <ComboBoxItem Content="7 дней" IsSelected="True"/>
+                <ComboBoxItem Content="30 дней"/>
+                <ComboBoxItem Content="Все даты"/>
+            </ComboBox>
+
+            <CheckBox x:Name="HideProcessedCheckBox" Content="Скрыть обработанные" Margin="10,0,0,0" Checked="HideProcessedCheckBox_Checked" Unchecked="HideProcessedCheckBox_Checked"/>
+            <Button Content="Обновить" Click="LoadReminders_Click" Margin="10,0,0,0"/>
+            <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Margin="10,0,0,0"/>
+            <Button Content="Отправить в Telegram" Click="SendToTelegram_Click" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <!-- Таблица напоминаний -->
+        <DataGrid x:Name="RemindersDataGrid" Grid.Row="1" AutoGenerateColumns="False"
+                  IsReadOnly="False" CanUserAddRows="False" Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="✔" Binding="{Binding Processed}" Width="40"/>
+                <DataGridTextColumn Header="Событие" Binding="{Binding Type}" Width="*"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeName}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
+                <DataGridTextColumn Header="Детали" Binding="{Binding Info}" Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Подсказка -->
+        <TextBlock Grid.Row="2" Text="Двойной щелчок по строке помечает как обработанное." FontStyle="Italic" Foreground="Gray" Margin="5"/>
+    </Grid>
+</Page>

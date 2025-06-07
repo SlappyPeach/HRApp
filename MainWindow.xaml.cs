@@ -8,16 +8,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq;
+using HRApp.Views;
 
-namespace HRApp;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace HRApp
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        // Обработчик для кнопки "Вход"
+        private void EnterButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Создаем экземпляр окна авторизации
+            AuthWindow authWindow = new AuthWindow();
+            authWindow.Show();
+
+            // Закрываем текущее главное окно (если оно больше не нужно)
+            this.Close();
+        }
+
+        // Обработчик для кнопки "Выход"
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

@@ -1,0 +1,81 @@
+﻿<Window x:Class="HRApp.Views.HireWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Приём на работу" Height="750" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Loaded="HireWindow_Loaded">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Приём на работу" FontSize="20" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <!-- Поля -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <TextBox x:Name="SurenameTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Фамилия *"/>
+                <TextBox x:Name="FirstNameTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Имя *"/>
+                <TextBox x:Name="SecondNameTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Отчество"/>
+                <TextBox x:Name="BirthDateTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Дата рождения (дд.мм.гггг)"/>
+                <ComboBox x:Name="SexComboBox" Margin="0,5"
+                          materialDesign:HintAssist.Hint="Пол">
+                    <ComboBoxItem Content="Мужской"/>
+                    <ComboBoxItem Content="Женский"/>
+                </ComboBox>
+                <TextBox x:Name="CitizenshipTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Гражданство"/>
+                <TextBox x:Name="AddressTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Адрес проживания"/>
+                <TextBox x:Name="PhoneTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Телефон"/>
+
+                <ComboBox x:Name="DepartmentComboBox" Margin="0,10,0,5"
+                          materialDesign:HintAssist.Hint="Структурное подразделение"
+                          SelectionChanged="DepartmentComboBox_SelectionChanged"/>
+                <ComboBox x:Name="PositionComboBox" Margin="0,5"
+                          materialDesign:HintAssist.Hint="Должность"
+                          SelectionChanged="PositionComboBox_SelectionChanged"/>
+
+                <Grid x:Name="LoadGrid" Margin="0,5" Visibility="Collapsed">
+                    <TextBox x:Name="LoadTextBox"
+                            materialDesign:HintAssist.Hint="Нагрузка"/>
+                </Grid>
+
+                <Grid x:Name="RateGrid" Margin="0,5" Visibility="Collapsed">
+                    <TextBox x:Name="RateTextBox"
+                            materialDesign:HintAssist.Hint="Ставка"/>
+                </Grid>
+
+
+                <TextBox x:Name="SalaryTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Оклад"/>
+                <ComboBox x:Name="AgreementTypeComboBox" Margin="0,5"
+                          materialDesign:HintAssist.Hint="Тип договора"/>
+                <ComboBox x:Name="ProbationComboBox" Margin="0,5"
+                          materialDesign:HintAssist.Hint="Срок испытания"/>
+                <TextBox x:Name="WorkStartDateTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Дата начала работы (дд.мм.гггг)"/>
+
+                <TextBlock x:Name="ResumeFileNameText" FontStyle="Italic" Foreground="Gray" Margin="0,5"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Кнопки действия -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Резюме" Click="ResumeButton_Click" Margin="5"/>
+            <Button Content="Сохранить" Click="SaveButton_Click" Margin="5"/>
+            <Button Content="Отмена" Click="CancelButton_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
