@@ -37,6 +37,7 @@ namespace HRApp.Views
             var employees = context.Employees.ToList();
             var departments = context.Departments.ToList();
             var positions = context.Positions.ToList();
+            var salaryRates = context.SalaryRates.ToList();
             var vacations = context.Vacations.ToList();
             var trips = context.BusinessTrips.ToList();
             var sickLeaves = context.SickLeaves.ToList();
@@ -67,7 +68,8 @@ namespace HRApp.Views
                     EmployeeName = $"{emp.Surename} {emp.FirstName} {emp.SecondName}".Trim(),
                     Position = position,
                     Department = department,
-                    Days = new string[daysInMonth]
+                    Days = new string[daysInMonth],
+                    HourRate = salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount / 160m
                 };
 
                 for (int i = 0; i < daysInMonth; i++)
@@ -153,6 +155,13 @@ namespace HRApp.Views
             TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "К", Binding = new System.Windows.Data.Binding("TotalK"), IsReadOnly = true });
             TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Н", Binding = new System.Windows.Data.Binding("TotalN"), IsReadOnly = true });
 
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Ставка", Binding = new System.Windows.Data.Binding("HourRate"), IsReadOnly = false });
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Часы 1-15", Binding = new System.Windows.Data.Binding("HoursFirstHalf"), IsReadOnly = true });
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Часы 16-", Binding = new System.Windows.Data.Binding("HoursSecondHalf"), IsReadOnly = true });
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Всего часов", Binding = new System.Windows.Data.Binding("TotalHours"), IsReadOnly = true });
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Неявки, дни", Binding = new System.Windows.Data.Binding("AbsenceDays"), IsReadOnly = true });
+            TimeSheetDataGrid.Columns.Add(new DataGridTextColumn { Header = "Неявки, ч", Binding = new System.Windows.Data.Binding("AbsenceHours"), IsReadOnly = true });
+
             TimeSheetDataGrid.ItemsSource = timeSheetData;
             TimeSheetDataGrid.CellEditEnding += TimeSheetDataGrid_CellEditEnding;
 
@@ -189,22 +198,27 @@ namespace HRApp.Views
             int columnIndex = e.Column.DisplayIndex;
             int dayIndex = columnIndex - 3;
 
-            if (dayIndex < 0 || dayIndex >= editedEntry.Days.Length)
-                return;
-
-            if (e.EditingElement is TextBox tb)
+            if (columnIndex >= 3 && columnIndex < 3 + editedEntry.Days.Length)
             {
-                string input = tb.Text.Trim().ToUpper();
-                string[] allowed = { "Я", "О", "Б", "К", "Н", "" };
-
-                if (!allowed.Contains(input))
+                if (e.EditingElement is TextBox tb)
                 {
-                    MessageBox.Show("Допустимые значения: Я, О, Б, К, Н");
-                    tb.Text = "";
-                    return;
-                }
+                    string input = tb.Text.Trim().ToUpper();
+                    string[] allowed = { "Я", "О", "Б", "К", "Н", "" };
 
-                editedEntry.Days[dayIndex] = input;
+                    if (!allowed.Contains(input))
+                    {
+                        MessageBox.Show("Допустимые значения: Я, О, Б, К, Н");
+                        tb.Text = "";
+                        return;
+                    }
+
+                    editedEntry.Days[dayIndex] = input;
+                }
+            }
+            else if (e.Column.Header?.ToString() == "Ставка")
+            {
+                if (e.EditingElement is TextBox tb && decimal.TryParse(tb.Text, out var rate))
+                    editedEntry.HourRate = rate;
             }
 
             RecalculateTotals();
@@ -256,6 +270,11 @@ namespace HRApp.Views
             context.AbsenceRecords.RemoveRange(existing);
             context.SaveChanges();
 
+            string tsCode = $"{year}-{month:00}";
+            var existingSheets = context.TimeSheets.Where(t => t.TimeSheetCode == tsCode).ToList();
+            context.TimeSheets.RemoveRange(existingSheets);
+            context.SaveChanges();
+
             var employees = context.Employees.ToList();
 
             foreach (var entry in timeSheetData.Where(e => e.EmployeeName != "ИТОГО:"))
@@ -267,6 +286,16 @@ namespace HRApp.Views
                     e.Surename == parts[0] && e.FirstName == parts[1]);
 
                 if (emp == null) continue;
+
+                context.TimeSheets.Add(new TimeSheet
+                {
+                    TimeSheetCode = tsCode,
+                    DaysPerWeek = 5,
+                    HourPrice = entry.HourRate,
+                    HoursWeek1 = entry.HoursFirstHalf,
+                    HoursWeek2 = entry.HoursSecondHalf,
+                    EmployeeId = emp.Id
+                });
 
                 for (int i = 0; i < entry.Days.Length; i++)
                 {
@@ -325,6 +354,12 @@ namespace HRApp.Views
                     ws.Cell(1, offset + 2).Value = "Б";
                     ws.Cell(1, offset + 3).Value = "К";
                     ws.Cell(1, offset + 4).Value = "Н";
+                    ws.Cell(1, offset + 5).Value = "Ставка";
+                    ws.Cell(1, offset + 6).Value = "Часы 1-15";
+                    ws.Cell(1, offset + 7).Value = "Часы 16-";
+                    ws.Cell(1, offset + 8).Value = "Всего часов";
+                    ws.Cell(1, offset + 9).Value = "Неявки, дни";
+                    ws.Cell(1, offset + 10).Value = "Неявки, ч";
 
                     for (int i = 0; i < timeSheetData.Count; i++)
                     {
@@ -341,6 +376,12 @@ namespace HRApp.Views
                         ws.Cell(i + 2, offset + 2).Value = row.TotalB;
                         ws.Cell(i + 2, offset + 3).Value = row.TotalK;
                         ws.Cell(i + 2, offset + 4).Value = row.TotalN;
+                        ws.Cell(i + 2, offset + 5).Value = row.HourRate;
+                        ws.Cell(i + 2, offset + 6).Value = row.HoursFirstHalf;
+                        ws.Cell(i + 2, offset + 7).Value = row.HoursSecondHalf;
+                        ws.Cell(i + 2, offset + 8).Value = row.TotalHours;
+                        ws.Cell(i + 2, offset + 9).Value = row.AbsenceDays;
+                        ws.Cell(i + 2, offset + 10).Value = row.AbsenceHours;
                     }
 
                     ws.Columns().AdjustToContents();
@@ -362,11 +403,35 @@ namespace HRApp.Views
             public string Department { get; set; }
             public string[] Days { get; set; }
 
+            private decimal hourRate;
+            public decimal HourRate
+            {
+                get => hourRate;
+                set
+                {
+                    hourRate = value;
+                    OnPropertyChanged(nameof(HourRate));
+                    ForceRecalculate();
+                }
+            }
+
             public int TotalY => Days.Count(d => d == "Я");
             public int TotalO => Days.Count(d => d == "О");
             public int TotalB => Days.Count(d => d == "Б");
             public int TotalK => Days.Count(d => d == "К");
             public int TotalN => Days.Count(d => d == "Н");
+
+            private const int HoursPerDay = 8;
+
+            public int HoursFirstHalf => Enumerable.Range(0, Math.Min(15, Days.Length))
+                .Count(i => Days[i] == "Я") * HoursPerDay;
+            public int HoursSecondHalf => Enumerable.Range(Math.Min(15, Days.Length),
+                    Math.Max(0, Days.Length - 15))
+                .Count(i => Days[i] == "Я") * HoursPerDay;
+            public int TotalHours => HoursFirstHalf + HoursSecondHalf;
+
+            public int AbsenceDays => Days.Count(d => string.IsNullOrEmpty(d));
+            public int AbsenceHours => AbsenceDays * HoursPerDay;
 
             public void ForceRecalculate()
             {
@@ -375,6 +440,11 @@ namespace HRApp.Views
                 OnPropertyChanged(nameof(TotalB));
                 OnPropertyChanged(nameof(TotalK));
                 OnPropertyChanged(nameof(TotalN));
+                OnPropertyChanged(nameof(HoursFirstHalf));
+                OnPropertyChanged(nameof(HoursSecondHalf));
+                OnPropertyChanged(nameof(TotalHours));
+                OnPropertyChanged(nameof(AbsenceDays));
+                OnPropertyChanged(nameof(AbsenceHours));
             }
 
             public event PropertyChangedEventHandler? PropertyChanged;
