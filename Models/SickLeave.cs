@@ -11,8 +11,8 @@ namespace HRApp.Models
         public int Id { get; set; }
         public DateTime RegDate { get; set; }
         public string RegNumber { get; set; }
-        public string MedStateName { get; set; }
-        public string LicenseNumber { get; set; }
+        public string? MedStateName { get; set; }
+        public string? LicenseNumber { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string Info { get; set; }
