@@ -10,7 +10,7 @@ exported to Word or Excel using built‑in templates.
 
 ### General
 - Authentication window displays the current Baikonur weather.
-- 
+  
 ### Employees
 - Maintain a list of employees with filtering and search.
 - Employee card based on the official T‑2 form (all personal and HR data).
