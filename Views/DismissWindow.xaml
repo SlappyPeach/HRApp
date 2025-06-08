@@ -1,0 +1,32 @@
+﻿<Window x:Class="HRApp.Views.DismissWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Увольнение сотрудника" Height="300" Width="500"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Оформление увольнения" FontSize="20" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <StackPanel Grid.Row="1">
+            <ComboBox x:Name="EmployeeComboBox" Margin="0,5"
+                      materialDesign:HintAssist.Hint="Выберите сотрудника"/>
+            <TextBox x:Name="DismissDateTextBox" Margin="0,5"
+                     materialDesign:HintAssist.Hint="Дата увольнения (дд.мм.гггг)"/>
+            <TextBox x:Name="BaseTextBox" Margin="0,5"
+                     materialDesign:HintAssist.Hint="Основание"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Сохранить" Click="SaveButton_Click" Margin="5"/>
+            <Button Content="Экспорт" Click="ExportButton_Click" Margin="5"/>
+            <Button Content="Закрыть" Click="CancelButton_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

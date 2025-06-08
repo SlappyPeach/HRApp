@@ -135,22 +135,9 @@ namespace HRApp.Views
 
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
-            if (EmployeesDataGrid.SelectedItem is Employee emp)
-            {
-                using var context = new HRDbContext();
-                var empDb = context.Employees.FirstOrDefault(x => x.Id == emp.Id);
-                if (empDb != null)
-                {
-                    empDb.DismissalDate = System.DateTime.Today;
-                    context.SaveChanges();
-                    LoadEmployees();
-                    MessageBox.Show("Сотрудник уволен.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Выберите сотрудника для увольнения.");
-            }
+            var window = new DismissWindow();
+            window.ShowDialog();
+            LoadEmployees();
         }
 
         private void AwardsButton_Click(object sender, RoutedEventArgs e)
