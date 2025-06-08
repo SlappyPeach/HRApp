@@ -16,6 +16,12 @@ namespace HRApp.Views
     {
         private List<Employee> employees;
 
+        private static readonly string[] Months = new[]
+        {
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        };
+
         public VacationWindow()
         {
             InitializeComponent();
@@ -130,15 +136,61 @@ namespace HRApp.Views
                     var doc = DocX.Load(templatePath);
 
                     // Плейсхолдеры
-                    doc.ReplaceText("<Surename>", selectedEmployee.Surename);
-                    doc.ReplaceText("<FirstName>", selectedEmployee.FirstName);
-                    doc.ReplaceText("<SecondName>", selectedEmployee.SecondName);
-                    doc.ReplaceText("<StartDate>", StartDateTextBox.Text.Trim());
-                    doc.ReplaceText("<EndDate>", EndDateTextBox.Text.Trim());
-                    doc.ReplaceText("<Days>", DaysTextBox.Text.Trim());
-                    doc.ReplaceText("<Base>", BaseTextBox.Text.Trim());
+                    DateTime.TryParse(StartDateTextBox.Text, out var startDate);
+                    DateTime.TryParse(EndDateTextBox.Text, out var endDate);
+
+                    using var context = new HRDbContext();
+
+                    string department = selectedEmployee.DepartmentId != null ?
+                        context.Departments.FirstOrDefault(d => d.Id == selectedEmployee.DepartmentId)?.Name ?? string.Empty : string.Empty;
+                    string position = selectedEmployee.PositionId != null ?
+                        context.Positions.FirstOrDefault(p => p.Id == selectedEmployee.PositionId)?.Title ?? string.Empty : string.Empty;
+                    string regNumber = OrderNumberGenerator.Generate(context, "ОТП");
+
+                    string MonthName(DateTime d) => Months[d.Month - 1];
+
+                    // ФИО и общие данные
+                    doc.ReplaceText("<surename>", selectedEmployee.Surename ?? "");
+                    doc.ReplaceText("<firstname>", selectedEmployee.FirstName ?? "");
+                    doc.ReplaceText("<secondname>", selectedEmployee.SecondName ?? "");
+                    doc.ReplaceText("<Servicenumber>", selectedEmployee.TabNumber ?? string.Empty);
+                    doc.ReplaceText("<workplacetype>", department);
+                    doc.ReplaceText("<work>", position);
+
+                    // Тип отпуска и основание
                     doc.ReplaceText("<VacationType>", (VacationTypeComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "—");
-                    doc.ReplaceText("<DocDate>", DateTime.Today.ToShortDateString());
+                    doc.ReplaceText("<vacationDaysA>", DaysTextBox.Text.Trim());
+                    doc.ReplaceText("<vacationDaysB>", DaysTextBox.Text.Trim());
+                    doc.ReplaceText("<vacationDaysC>", DaysTextBox.Text.Trim());
+                    doc.ReplaceText("<Base>", BaseTextBox.Text.Trim());
+
+                    // Даты периода работы
+                    doc.ReplaceText("<wsd>", startDate.ToString("dd"));
+                    doc.ReplaceText("<wsmonth>", MonthName(startDate));
+                    doc.ReplaceText("<wsy>", startDate.ToString("yy"));
+                    doc.ReplaceText("<wed>", endDate.ToString("dd"));
+                    doc.ReplaceText("<wemonth>", MonthName(endDate));
+                    doc.ReplaceText("<wey>", endDate.ToString("yy"));
+
+                    // Даты отпуска (части А, B, C)
+                    void FillDates(string prefixStartDay, string prefixMonth, string prefixYear,
+                                   string prefixEndDay, string prefixEndMonth, string prefixEndYear)
+                    {
+                        doc.ReplaceText(prefixStartDay, startDate.ToString("dd"));
+                        doc.ReplaceText(prefixMonth, MonthName(startDate));
+                        doc.ReplaceText(prefixYear, startDate.ToString("yy"));
+                        doc.ReplaceText(prefixEndDay, endDate.ToString("dd"));
+                        doc.ReplaceText(prefixEndMonth, MonthName(endDate));
+                        doc.ReplaceText(prefixEndYear, endDate.ToString("yy"));
+                    }
+
+                    FillDates("<sda>", "<smontha>", "<sya>", "<eda>", "<emontha>", "<eya>");
+                    FillDates("<sdb>", "<smonthb>", "<syb>", "<edb>", "<emonthb>", "<eyb>");
+                    FillDates("<sdc>", "<smothc>", "<syc>", "<edc>", "<emonthc>", "<eyc>");
+
+                    // Дата и номер приказа
+                    doc.ReplaceText("<datetimepicker1>", DateTime.Today.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<regDate>", regNumber);
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Приказ сохранён.");
