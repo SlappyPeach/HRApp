@@ -237,15 +237,17 @@ namespace HRApp.Views
 
             var doc = DocX.Load(templatePath);
 
-            doc.ReplaceText("<regNumber>", order.RegNumber ?? "");
-            doc.ReplaceText("<docDate>", order.DocDate.ToString("dd.MM.yyyy"));
-            doc.ReplaceText("<employeeCode>", employee.Id.ToString("D6"));
-            doc.ReplaceText("<fullName>", $"{employee.Surename} {employee.FirstName} {employee.SecondName}".Trim());
-            doc.ReplaceText("<department>", DepartmentComboBox.Text);
-            doc.ReplaceText("<position>", PositionComboBox.Text);
-            doc.ReplaceText("<base>", order.Base ?? "-");
-            doc.ReplaceText("<salary>", SalaryTextBox.Text);
-            doc.ReplaceText("<probation>", ProbationComboBox.Text);
+            doc.ReplaceText("<DocNumber>", order.RegNumber ?? "");
+            doc.ReplaceText("<DocDate>", order.DocDate.ToString("dd.MM.yyyy"));
+            doc.ReplaceText("<Surename>", employee.Surename ?? "");
+            doc.ReplaceText("<FirstName>", employee.FirstName ?? "");
+            doc.ReplaceText("<SecondName>", employee.SecondName ?? "");
+            doc.ReplaceText("<Department>", DepartmentComboBox.Text);
+            doc.ReplaceText("<Position>", PositionComboBox.Text);
+            doc.ReplaceText("<Base>", order.Base ?? "-");
+            doc.ReplaceText("<Salary>", SalaryTextBox.Text);
+            doc.ReplaceText("<Probation>", ProbationComboBox.Text);
+            doc.ReplaceText("<HireDate>", WorkStartDateTextBox.Text);
             doc.ReplaceText("<TabNumber>", employee.TabNumber ?? "");
 
             doc.SaveAs(outputPath);
