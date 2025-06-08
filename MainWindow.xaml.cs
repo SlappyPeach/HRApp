@@ -25,10 +25,11 @@ namespace HRApp
         {
             // Создаем экземпляр окна авторизации
             AuthWindow authWindow = new AuthWindow();
-            authWindow.Show();
+            authWindow.Owner = this;
+            authWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-            // Закрываем текущее главное окно (если оно больше не нужно)
-            this.Close();
+            // Показываем окно авторизации модально
+            authWindow.ShowDialog();
         }
 
         // Обработчик для кнопки "Выход"

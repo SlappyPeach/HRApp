@@ -18,13 +18,18 @@ namespace HRApp.Views
         public TimeSheetPage()
         {
             InitializeComponent();
+
+            int currentYear = DateTime.Now.Year;
+            var years = Enumerable.Range(currentYear - 5, 11);
+            YearComboBox.ItemsSource = years;
+            YearComboBox.Text = currentYear.ToString();
         }
 
         private void GenerateTimeSheet_Click(object sender, RoutedEventArgs e)
         {
             if (MonthComboBox.SelectedItem is not ComboBoxItem selectedMonth ||
                 !int.TryParse(selectedMonth.Tag.ToString(), out int month) ||
-                !int.TryParse(YearTextBox.Text, out int year))
+                !int.TryParse(YearComboBox.Text, out int year))
             {
                 MessageBox.Show("Укажите корректные месяц и год.");
                 return;
@@ -255,7 +260,7 @@ namespace HRApp.Views
         {
             if (MonthComboBox.SelectedItem is not ComboBoxItem selectedMonth ||
                 !int.TryParse(selectedMonth.Tag.ToString(), out int month) ||
-                !int.TryParse(YearTextBox.Text, out int year))
+                !int.TryParse(YearComboBox.Text, out int year))
             {
                 MessageBox.Show("Укажите корректные месяц и год.");
                 return;

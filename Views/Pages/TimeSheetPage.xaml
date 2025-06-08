@@ -29,8 +29,9 @@
                 <ComboBoxItem Content="Декабрь" Tag="12"/>
             </ComboBox>
 
-            <TextBox x:Name="YearTextBox" Width="100" Margin="0,0,10,0"
-                     materialDesign:HintAssist.Hint="Год"/>
+            <ComboBox x:Name="YearComboBox" Width="100" Margin="0,0,10,0"
+                      IsEditable="True"
+                      materialDesign:HintAssist.Hint="Год"/>
 
             <Button Content="Сформировать табель" Click="GenerateTimeSheet_Click" Margin="0,0,10,0"/>
             <Button Content="Сохранить табель" Click="SaveTimeSheet_Click" Margin="0,0,10,0"/>

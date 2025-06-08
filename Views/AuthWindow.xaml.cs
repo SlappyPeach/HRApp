@@ -112,10 +112,12 @@ namespace HRApp.Views
                 {
                     // Если пользователь найден, открываем главное меню
                     MainMenuWindow mainMenu = new MainMenuWindow();
+                    mainMenu.WindowState = WindowState.Maximized;
                     mainMenu.Show();
 
-                    // Закрываем окно авторизации
+                    // Закрываем окно авторизации и родительское окно
                     this.Close();
+                    this.Owner?.Close();
                 }
                 else
                 {
