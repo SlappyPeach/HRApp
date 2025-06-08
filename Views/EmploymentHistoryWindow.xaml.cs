@@ -83,14 +83,30 @@ namespace HRApp.Views
                 return;
             }
 
+            foreach (var entry in historyList)
+            {
+                if (entry.RecordNumber <= 0 ||
+                    entry.Date == default ||
+                    string.IsNullOrWhiteSpace(entry.WorkPlaceName) ||
+                    string.IsNullOrWhiteSpace(entry.Position) ||
+                    string.IsNullOrWhiteSpace(entry.Content) ||
+                    string.IsNullOrWhiteSpace(entry.Reason))
+                {
+                    MessageBox.Show("Заполните все поля трудовой книжки.");
+                    return;
+                }
+            }
+
             using var context = new HRDbContext();
             var existing = context.EmploymentHistories.Where(h => h.EmployeeId == selectedEmployee.Id).ToList();
             context.EmploymentHistories.RemoveRange(existing);
+
             foreach (var entry in historyList)
             {
                 entry.EmployeeId = selectedEmployee.Id;
                 context.EmploymentHistories.Add(entry);
             }
+
             context.SaveChanges();
             MessageBox.Show("Записи сохранены.");
         }

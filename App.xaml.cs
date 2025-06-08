@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using HRApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRApp
 {
@@ -13,8 +14,8 @@ namespace HRApp
 
             using (var context = new HRDbContext())
             {
-                // Создаём базу данных и таблицы, если их ещё нет
-                context.Database.EnsureCreated();
+                // Создаем или обновляем базу данных до последней версии
+                context.Database.Migrate();
             }            
         }
     }
