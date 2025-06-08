@@ -21,10 +21,12 @@
                       materialDesign:HintAssist.Hint="Выберите сотрудника"/>
             <DataGrid x:Name="HistoryDataGrid" AutoGenerateColumns="False" Height="300" Margin="0,10">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Начало" Binding="{Binding StartDate}" Width="*"/>
-                    <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate}" Width="*"/>
+                    <DataGridTextColumn Header="№" Binding="{Binding RecordNumber}" Width="Auto"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
                     <DataGridTextColumn Header="Организация" Binding="{Binding WorkPlaceName}" Width="*"/>
-                    <DataGridTextColumn Header="Специальность" Binding="{Binding Speciality}" Width="*"/>
+                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" Width="*"/>
+                    <DataGridTextColumn Header="Содержание" Binding="{Binding Content}" Width="*"/>
+                    <DataGridTextColumn Header="Основание" Binding="{Binding Reason}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5">

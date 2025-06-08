@@ -46,16 +46,16 @@ namespace HRApp.Views
 
             // Список праздничных дней (можно дополнить)
             var holidays = new List<DateTime>
-    {
-        new DateTime(year, 1, 1),
-        new DateTime(year, 1, 7),
-        new DateTime(year, 2, 23),
-        new DateTime(year, 3, 8),
-        new DateTime(year, 5, 1),
-        new DateTime(year, 5, 9),
-        new DateTime(year, 6, 12),
-        new DateTime(year, 11, 4)
-    };
+            {
+                new DateTime(year, 1, 1),
+                new DateTime(year, 1, 7),
+                new DateTime(year, 2, 23),
+                new DateTime(year, 3, 8),
+                new DateTime(year, 5, 1),
+                new DateTime(year, 5, 9),
+                new DateTime(year, 6, 12),
+                new DateTime(year, 11, 4)
+            };
 
             foreach (var emp in employees)
             {

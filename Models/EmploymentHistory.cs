@@ -9,10 +9,12 @@ namespace HRApp.Models
     public class EmploymentHistory
     {
         public int Id { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string WorkPlaceName { get; set; }
-        public string Speciality { get; set; }
+        public int RecordNumber { get; set; }
+        public DateTime Date { get; set; }
+        public string WorkPlaceName { get; set; }        
+        public string Position { get; set; }
+        public string Content { get; set; }
+        public string Reason { get; set; }
         public int EmployeeId { get; set; }
     }
 }

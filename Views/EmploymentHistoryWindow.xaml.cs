@@ -57,10 +57,12 @@ namespace HRApp.Views
 
             historyList.Add(new EmploymentHistory
             {
-                StartDate = DateTime.Today.AddYears(-1),
-                EndDate = DateTime.Today,
+                RecordNumber = historyList.Count + 1,
+                Date = DateTime.Today,
                 WorkPlaceName = "Организация",
-                Speciality = "Должность",
+                Position = "Должность",
+                Content = "",
+                Reason = "",
                 EmployeeId = selectedEmployee.Id
             });
         }
@@ -115,19 +117,23 @@ namespace HRApp.Views
                     var ws = workbook.Worksheets.Add("Трудовая книжка");
 
                     // Заголовки
-                    ws.Cell(1, 1).Value = "Начало";
-                    ws.Cell(1, 2).Value = "Окончание";
+                    ws.Cell(1, 1).Value = "№";
+                    ws.Cell(1, 2).Value = "Дата";
                     ws.Cell(1, 3).Value = "Организация";
-                    ws.Cell(1, 4).Value = "Специальность";
+                    ws.Cell(1, 4).Value = "Должность";
+                    ws.Cell(1, 5).Value = "Содержание";
+                    ws.Cell(1, 6).Value = "Основание";
 
                     // Данные
                     for (int i = 0; i < historyList.Count; i++)
                     {
                         var entry = historyList[i];
-                        ws.Cell(i + 2, 1).Value = entry.StartDate.ToShortDateString();
-                        ws.Cell(i + 2, 2).Value = entry.EndDate?.ToShortDateString() ?? "—";
+                        ws.Cell(i + 2, 1).Value = entry.RecordNumber;
+                        ws.Cell(i + 2, 2).Value = entry.Date.ToShortDateString();
                         ws.Cell(i + 2, 3).Value = entry.WorkPlaceName;
-                        ws.Cell(i + 2, 4).Value = entry.Speciality;
+                        ws.Cell(i + 2, 4).Value = entry.Position;
+                        ws.Cell(i + 2, 5).Value = entry.Content;
+                        ws.Cell(i + 2, 6).Value = entry.Reason;
                     }
 
                     ws.Columns().AdjustToContents();
