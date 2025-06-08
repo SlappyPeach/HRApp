@@ -69,7 +69,7 @@ namespace HRApp.Views
                     Position = position,
                     Department = department,
                     Days = new string[daysInMonth],
-                    HourRate = salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount / 160m
+                    HourRate = (salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount ?? 0m) / 160m
                 };
 
                 for (int i = 0; i < daysInMonth; i++)
