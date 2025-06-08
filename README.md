@@ -1,12 +1,20 @@
 ﻿# HRApp – HR Management WPF Application
 
-HRApp is a desktop solution for automating HR processes in educational institutions. The application covers the full employee life cycle: hiring, orders, document management, time tracking, reminders and report generation with export to Word/Excel.
+HRApp is a desktop solution for automating HR processes in educational institutions.
+It covers the full employee life cycle from hiring to dismissal.
+The application includes authentication and even shows the current Baikonur weather
+on the login screen. All data is stored locally in a SQLite database and can be
+exported to Word or Excel using built‑in templates.
 
 ## Main features
 
+### General
+- Authentication window displays the current Baikonur weather.
+- 
 ### Employees
 - Maintain a list of employees with filtering and search.
 - Employee card based on the official T‑2 form (all personal and HR data).
+- Manage positions, departments and salary rates.
 - Digital labor book with saving and export.
 - Support for dismissal with date tracking.
 - Attach and store employee CVs.
@@ -15,6 +23,7 @@ HRApp is a desktop solution for automating HR processes in educational instituti
 - Orders for hiring, transfers, dismissal, vacations, business trips and sick leaves.
 - Automatic order numbering (`PREFIX-YEAR-NUMBER`).
 - Export of orders to Word using templates.
+- Employment contract generation from templates.
 
 ### Documents and journals
 - Incoming, outgoing and internal documents.
@@ -24,6 +33,7 @@ HRApp is a desktop solution for automating HR processes in educational instituti
 - Automatic generation of a monthly time sheet.
 - Accounting for vacations, sick leaves, weekends and working days.
 - Summary totals for attendance and absences.
+- Saving time sheet data to the database.
 - Export of the time sheet to Excel.
 
 ### Reminders
@@ -31,7 +41,7 @@ HRApp is a desktop solution for automating HR processes in educational instituti
 - Customizable period (3/7/30 days).
 - "Processed" mark and filtering.
 - Export reminders to Excel.
-- Telegram notifications at application start.
+- Telegram notifications for upcoming events.
 
 ### Reports
 - Orders, vacations, sick leaves and employee list for any period.
