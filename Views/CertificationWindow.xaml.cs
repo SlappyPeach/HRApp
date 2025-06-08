@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using HRApp.Data;
 using HRApp.Models;
+using Microsoft.Win32;
+using ClosedXML.Excel;
 
 namespace HRApp.Views
 {
@@ -60,6 +62,61 @@ namespace HRApp.Views
 
             MessageBox.Show("Аттестация сохранена.");
             this.Close();
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (EmployeeComboBox.SelectedItem is not Employee selectedEmployee)
+            {
+                MessageBox.Show("Выберите сотрудника.");
+                return;
+            }
+
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Excel файлы (*.xlsx)|*.xlsx",
+                FileName = $"Аттестация_{selectedEmployee.Surename}.xlsx"
+            };
+
+            if (sfd.ShowDialog() == true)
+            {
+                using var workbook = new XLWorkbook();
+                var ws = workbook.Worksheets.Add("Аттестация");
+
+                ws.Cell("A1").Value = "Фамилия";
+                ws.Cell("B1").Value = "Имя";
+                ws.Cell("C1").Value = "Отчество";
+                ws.Cell("D1").Value = "Дата аттестации";
+                ws.Cell("E1").Value = "Решение";
+                ws.Cell("F1").Value = "Категория";
+                ws.Cell("G1").Value = "Номер документа";
+                ws.Cell("H1").Value = "Дата документа";
+                ws.Cell("I1").Value = "Основание";
+                ws.Cell("J1").Value = "Следующая аттестация";
+
+                ws.Cell("A2").Value = selectedEmployee.Surename;
+                ws.Cell("B2").Value = selectedEmployee.FirstName;
+                ws.Cell("C2").Value = selectedEmployee.SecondName;
+                ws.Cell("D2").Value = DateTextBox.Text.Trim();
+                ws.Cell("E2").Value = ResolutionTextBox.Text.Trim();
+                ws.Cell("F2").Value = (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+                ws.Cell("G2").Value = DocNumberTextBox.Text.Trim();
+                ws.Cell("H2").Value = DocDateTextBox.Text.Trim();
+                ws.Cell("I2").Value = BaseTextBox.Text.Trim();
+                ws.Cell("J2").Value = NextDateTextBox.Text.Trim();
+
+                ws.Columns().AdjustToContents();
+
+                try
+                {
+                    workbook.SaveAs(sfd.FileName);
+                    MessageBox.Show("Аттестация экспортирована в Excel.", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
+                }
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
