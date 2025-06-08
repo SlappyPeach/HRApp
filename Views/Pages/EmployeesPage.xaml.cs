@@ -62,6 +62,7 @@ namespace HRApp.Views
         {
             if (EmployeesDataGrid.SelectedItem is Employee emp)
             {
+                CardTabNumberTextBlock.Text = $"Таб. №: {emp.TabNumber}";
                 CardNameTextBlock.Text = $"ФИО: {emp.Surename} {emp.FirstName} {emp.SecondName}";
                 CardBirthTextBlock.Text = $"Дата рождения: {emp.BirthDate.ToShortDateString()}";
                 CardCitizenshipTextBlock.Text = $"Гражданство: {emp.Citizenship}";
@@ -70,6 +71,7 @@ namespace HRApp.Views
             }
             else
             {
+                CardTabNumberTextBlock.Text = "Таб. №:";
                 CardNameTextBlock.Text = "ФИО:";
                 CardBirthTextBlock.Text = "Дата рождения:";
                 CardCitizenshipTextBlock.Text = "Гражданство:";

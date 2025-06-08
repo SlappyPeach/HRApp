@@ -67,6 +67,7 @@
                       IsReadOnly="True" Margin="0,0,10,0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="Таб. №" Binding="{Binding TabNumber}" Width="80"/>
                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Surename}" Width="*"/>
                     <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
                     <DataGridTextColumn Header="Отчество" Binding="{Binding SecondName}" Width="*"/>
@@ -78,6 +79,7 @@
             <materialDesign:Card Grid.Column="1" Padding="20">
                 <StackPanel>
                     <TextBlock Text="Карточка сотрудника" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="CardTabNumberTextBlock" Text="Таб. №: " Margin="0,5"/>
                     <TextBlock x:Name="CardNameTextBlock" Text="ФИО: " Margin="0,5"/>
                     <TextBlock x:Name="CardBirthTextBlock" Text="Дата рождения: " Margin="0,5"/>
                     <TextBlock x:Name="CardCitizenshipTextBlock" Text="Гражданство: " Margin="0,5"/>

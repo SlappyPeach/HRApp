@@ -11,6 +11,7 @@ namespace HRApp.Models
         public int Id { get; set; }
 
         // Персональные данные
+        public string TabNumber { get; set; }
         public string Surename { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

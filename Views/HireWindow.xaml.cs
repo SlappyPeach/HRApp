@@ -118,6 +118,7 @@ namespace HRApp.Views
                 INN = "-",
                 SNILS = "-",
                 NomerScheta = "-",
+                TabNumber = TabNumberTextBox.Text.Trim(),
                 BIK = "-",
                 Korschet = "-",
                 KPP = "-",
@@ -245,6 +246,7 @@ namespace HRApp.Views
             doc.ReplaceText("<base>", order.Base ?? "-");
             doc.ReplaceText("<salary>", SalaryTextBox.Text);
             doc.ReplaceText("<probation>", ProbationComboBox.Text);
+            doc.ReplaceText("<TabNumber>", employee.TabNumber ?? "");
 
             doc.SaveAs(outputPath);
             MessageBox.Show($"Приказ о приёме сохранён:\n{outputPath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);

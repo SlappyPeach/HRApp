@@ -39,6 +39,8 @@
                          materialDesign:HintAssist.Hint="Адрес проживания"/>
                 <TextBox x:Name="PhoneTextBox" Margin="0,5"
                          materialDesign:HintAssist.Hint="Телефон"/>
+                <TextBox x:Name="TabNumberTextBox" Margin="0,5"
+                         materialDesign:HintAssist.Hint="Табельный номер"/>
 
                 <ComboBox x:Name="DepartmentComboBox" Margin="0,10,0,5"
                           materialDesign:HintAssist.Hint="Структурное подразделение"
