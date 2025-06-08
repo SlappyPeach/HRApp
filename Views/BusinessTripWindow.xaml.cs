@@ -15,6 +15,12 @@ namespace HRApp.Views
     {
         private List<Employee> employees;
 
+        private static readonly string[] Months = new[]
+        {
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        };
+
         public BusinessTripWindow()
         {
             InitializeComponent();
@@ -100,7 +106,7 @@ namespace HRApp.Views
                 return;
             }
 
-            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "Reports_T-10a.docx");
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "orderBusinessTrip.docx");
             if (!File.Exists(templatePath))
             {
                 MessageBox.Show($"Шаблон приказа не найден по пути:\n{templatePath}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -120,14 +126,43 @@ namespace HRApp.Views
                     var doc = DocX.Load(templatePath);
 
                     // Плейсхолдеры
-                    doc.ReplaceText("<Surename>", selectedEmployee.Surename);
-                    doc.ReplaceText("<FirstName>", selectedEmployee.FirstName);
-                    doc.ReplaceText("<SecondName>", selectedEmployee.SecondName);
-                    doc.ReplaceText("<Destination>", DestinationTextBox.Text.Trim());
-                    doc.ReplaceText("<Purpose>", PurposeTextBox.Text.Trim());
-                    doc.ReplaceText("<StartDate>", StartDateTextBox.Text.Trim());
-                    doc.ReplaceText("<EndDate>", EndDateTextBox.Text.Trim());
-                    doc.ReplaceText("<DocDate>", DateTime.Today.ToShortDateString());
+                    DateTime.TryParse(StartDateTextBox.Text, out var startDate);
+                    DateTime.TryParse(EndDateTextBox.Text, out var endDate);
+
+                    using var context = new HRDbContext();
+
+                    string department = selectedEmployee.DepartmentId != null ?
+                        context.Departments.FirstOrDefault(d => d.Id == selectedEmployee.DepartmentId)?.Name ?? string.Empty : string.Empty;
+                    string position = selectedEmployee.PositionId != null ?
+                        context.Positions.FirstOrDefault(p => p.Id == selectedEmployee.PositionId)?.Title ?? string.Empty : string.Empty;
+                    string regNumber = OrderNumberGenerator.Generate(context, "КМД");
+
+                    string MonthName(DateTime d) => Months[d.Month - 1];
+
+                    // ФИО и общие данные
+                    doc.ReplaceText("<Esurename>", selectedEmployee.Surename ?? string.Empty);
+                    doc.ReplaceText("<Efirstname>", selectedEmployee.FirstName ?? string.Empty);
+                    doc.ReplaceText("<Esecondname>", selectedEmployee.SecondName ?? string.Empty);
+                    doc.ReplaceText("<Servicenumber>", selectedEmployee.TabNumber ?? string.Empty);
+                    doc.ReplaceText("<workplacetype>", department);
+                    doc.ReplaceText("<work>", position);
+
+                    // Сведения о командировке
+                    doc.ReplaceText("<aimPlace>", DestinationTextBox.Text.Trim());
+                    doc.ReplaceText("<aim>", PurposeTextBox.Text.Trim());
+                    doc.ReplaceText("<tripDays>", ((endDate - startDate).Days + 1).ToString());
+                    doc.ReplaceText("<sd>", startDate.ToString("dd"));
+                    doc.ReplaceText("<smonth>", MonthName(startDate));
+                    doc.ReplaceText("<sy>", startDate.ToString("yy"));
+                    doc.ReplaceText("<ed>", endDate.ToString("dd"));
+                    doc.ReplaceText("<emonth>", MonthName(endDate));
+                    doc.ReplaceText("<ey>", endDate.ToString("yy"));
+                    doc.ReplaceText("<orederInfo>", PurposeTextBox.Text.Trim());
+                    doc.ReplaceText("<Dwork>", "Директор");
+
+                    // Номер приказа и дата
+                    doc.ReplaceText("<regNumber>", regNumber);
+                    doc.ReplaceText("<DateTime.Now>", DateTime.Today.ToString("dd.MM.yyyy"));
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Приказ сохранён.");
