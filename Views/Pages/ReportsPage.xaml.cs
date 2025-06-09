@@ -211,7 +211,10 @@ namespace HRApp.Views
                         for (int j = 0; j < props.Length; j++)
                         {
                             var value = props[j].GetValue(reportData[i]);
-                            ws.Cell(i + 2, j + 1).Value = value;
+                            if (value == null)
+                                ws.Cell(i + 2, j + 1).SetValue(string.Empty);
+                            else
+                                ws.Cell(i + 2, j + 1).Value = value;
                         }
                     }
 

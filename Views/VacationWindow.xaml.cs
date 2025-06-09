@@ -186,7 +186,7 @@ namespace HRApp.Views
 
                     FillDates("<sda>", "<smontha>", "<sya>", "<eda>", "<emontha>", "<eya>");
                     FillDates("<sdb>", "<smonthb>", "<syb>", "<edb>", "<emonthb>", "<eyb>");
-                    FillDates("<sdc>", "<smothc>", "<syc>", "<edc>", "<emonthc>", "<eyc>");
+                    FillDates("<sdc>", "<smonthc>", "<syc>", "<edc>", "<emonthc>", "<eyc>");
 
                     // Дата и номер приказа
                     doc.ReplaceText("<datetimepicker1>", DateTime.Today.ToString("dd.MM.yyyy"));

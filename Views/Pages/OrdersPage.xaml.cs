@@ -7,6 +7,7 @@ using HRApp.Data;
 using HRApp.Models;
 using Microsoft.Win32;
 using Xceed.Words.NET;
+using ClosedXML.Excel;
 
 namespace HRApp.Views
 {
@@ -138,16 +139,33 @@ namespace HRApp.Views
                 MessageBox.Show("Выберите приказ для экспорта.");
                 return;
             }
-
-            string templateName = order.Content switch
+            if (order.Content.Contains("больнич", StringComparison.OrdinalIgnoreCase))
             {
-                var s when s.Contains("приём", StringComparison.OrdinalIgnoreCase) => "orderAgreement.docx",
-                var s when s.Contains("увольнение", StringComparison.OrdinalIgnoreCase) => "orderDismissal.docx",
-                var s when s.Contains("перевод", StringComparison.OrdinalIgnoreCase) => "orderMoveEmployee.docx",
-                var s when s.Contains("командировка", StringComparison.OrdinalIgnoreCase) => "orderBusinessTrip.docx",
-                var s when s.Contains("отпуск", StringComparison.OrdinalIgnoreCase) => "orderVacation.docx",
-                _ => "order.docx"
+                ExportSickLeaveToExcel(order);
+                return;
+            }
+
+            string? templateName = order.Content switch
+            {
+                var s when s.Contains("прием", StringComparison.OrdinalIgnoreCase) ||
+                            s.Contains("приём", StringComparison.OrdinalIgnoreCase)
+                        => "orderAgreement.docx",
+                var s when s.Contains("увольнен", StringComparison.OrdinalIgnoreCase)
+                        => "orderDismissal.docx",
+                var s when s.Contains("перевод", StringComparison.OrdinalIgnoreCase)
+                        => "orderMoveEmployee.docx",
+                var s when s.Contains("командиров", StringComparison.OrdinalIgnoreCase)
+                        => "orderBusinessTrip.docx",
+                var s when s.Contains("отпуск", StringComparison.OrdinalIgnoreCase)
+                        => "orderVacation.docx",
+                _ => null
             };
+
+            if (templateName is null)
+            {
+                MessageBox.Show($"Не удалось определить шаблон для приказа с содержанием:\n{order.Content}", "Ошибка");
+                return;
+            }
 
             string templatePath = System.IO.Path.Combine("Templates", templateName);
             if (!System.IO.File.Exists(templatePath))
@@ -200,6 +218,47 @@ namespace HRApp.Views
 
 
                     doc.SaveAs(sfd.FileName);
+                    MessageBox.Show("Экспорт завершён.");
+                    System.Diagnostics.Process.Start("explorer.exe", sfd.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка экспорта: {ex.Message}");
+                }
+            }
+        }
+        
+        private void ExportSickLeaveToExcel(OrderDisplay order)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Excel файлы (*.xlsx)|*.xlsx",
+                FileName = $"Больничный_{order.RegNumber}.xlsx"
+            };
+
+            if (sfd.ShowDialog() == true)
+            {
+                try
+                {
+                    var wb = new XLWorkbook();
+                    var ws = wb.Worksheets.Add("Больничный");
+
+                    ws.Cell(1, 1).Value = "Номер приказа";
+                    ws.Cell(1, 2).Value = "Дата";
+                    ws.Cell(1, 3).Value = "Сотрудник";
+                    ws.Cell(1, 4).Value = "Дата начала";
+                    ws.Cell(1, 5).Value = "Основание";
+                    ws.Cell(1, 6).Value = "Содержание";
+
+                    ws.Cell(2, 1).Value = order.RegNumber;
+                    ws.Cell(2, 2).Value = order.DocDate.ToShortDateString();
+                    ws.Cell(2, 3).Value = order.EmployeeName;
+                    ws.Cell(2, 4).Value = order.StartDate.ToShortDateString();
+                    ws.Cell(2, 5).Value = order.Base;
+                    ws.Cell(2, 6).Value = order.Content;
+
+                    ws.Columns().AdjustToContents();
+                    wb.SaveAs(sfd.FileName);
                     MessageBox.Show("Экспорт завершён.");
                     System.Diagnostics.Process.Start("explorer.exe", sfd.FileName);
                 }
