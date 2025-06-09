@@ -15,7 +15,9 @@ namespace HRApp.Models
         public int Month { get; set; }
 
         public int Day { get; set; } // от 1 до 31
-        public string Status { get; set; } = ""; // "Я", "О", "Б", "К", "Н"
+        public string Status { get; set; } = ""; // "Я" – явка, "О" – отпуск, "Б" – больничный,
+                                                 // "К" – командировка, "Н" – неявка,
+                                                 // "В" – выходной или праздничный день
 
         public Employee? Employee { get; set; }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using HRApp.Data;
 using HRApp.Models;
@@ -50,18 +51,8 @@ namespace HRApp.Views
                 .Where(r => r.Year == year && r.Month == month)
                 .ToList();
 
-            // Список праздничных дней (можно дополнить)
-            var holidays = new List<DateTime>
-            {
-                new DateTime(year, 1, 1),
-                new DateTime(year, 1, 7),
-                new DateTime(year, 2, 23),
-                new DateTime(year, 3, 8),
-                new DateTime(year, 5, 1),
-                new DateTime(year, 5, 9),
-                new DateTime(year, 6, 12),
-                new DateTime(year, 11, 4)
-            };
+            // Список праздничных дней на выбранный месяц
+            var holidays = GetRussianPublicHolidays(year, month);
 
             foreach (var emp in employees)
             {
@@ -96,7 +87,7 @@ namespace HRApp.Views
                     }
                     else if (date.DayOfWeek == DayOfWeek.Sunday || holidays.Contains(date))
                     {
-                        entry.Days[i] = "Н";
+                        entry.Days[i] = "В";
                     }
                     else
                     {
@@ -208,11 +199,11 @@ namespace HRApp.Views
                 if (e.EditingElement is TextBox tb)
                 {
                     string input = tb.Text.Trim().ToUpper();
-                    string[] allowed = { "Я", "О", "Б", "К", "Н", "" };
+                    string[] allowed = { "Я", "О", "Б", "К", "Н", "В", "" };
 
                     if (!allowed.Contains(input))
                     {
-                        MessageBox.Show("Допустимые значения: Я, О, Б, К, Н");
+                        MessageBox.Show("Допустимые значения: Я, О, Б, К, Н, В");
                         tb.Text = "";
                         return;
                     }
@@ -253,7 +244,7 @@ namespace HRApp.Views
             Dispatcher.InvokeAsync(() =>
             {
                 TimeSheetDataGrid.Items.Refresh();
-            });
+            }, DispatcherPriority.Background);
         }
 
         private void SaveTimeSheet_Click(object sender, RoutedEventArgs e)
@@ -305,7 +296,7 @@ namespace HRApp.Views
                 for (int i = 0; i < entry.Days.Length; i++)
                 {
                     string status = entry.Days[i];
-                    if (!new[] { "Я", "О", "Б", "К", "Н" }.Contains(status)) continue;
+                    if (!new[] { "Я", "О", "Б", "К", "Н", "В" }.Contains(status)) continue;
 
                     context.AbsenceRecords.Add(new AbsenceRecord
                     {
@@ -435,7 +426,7 @@ namespace HRApp.Views
                 .Count(i => Days[i] == "Я") * HoursPerDay;
             public int TotalHours => HoursFirstHalf + HoursSecondHalf;
 
-            public int AbsenceDays => Days.Count(d => string.IsNullOrEmpty(d));
+            public int AbsenceDays => Days.Count(d => string.IsNullOrEmpty(d) || d == "Н");
             public int AbsenceHours => AbsenceDays * HoursPerDay;
 
             public void ForceRecalculate()
