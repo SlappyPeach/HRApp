@@ -558,11 +558,7 @@ namespace HRApp.Views
 
         private void InsertTableAfterPlaceholder(DocX doc, string placeholder, string[] headers, IEnumerable<string[]> rows)
         {
-            var placeholderParagraph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
-            if (placeholderParagraph == null)
-                return;
-
-            placeholderParagraph.ReplaceText(placeholder, "");
+            doc.ReplaceText(placeholder, "");
 
             var insertAfter = doc.Paragraphs.FirstOrDefault(p => string.IsNullOrWhiteSpace(p.Text));
             if (insertAfter == null) return;
@@ -581,7 +577,7 @@ namespace HRApp.Views
                 rowIndex++;
             }
 
-            placeholderParagraph.InsertTableAfterSelf(table);
+            insertAfter.InsertTableAfterSelf(table);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
