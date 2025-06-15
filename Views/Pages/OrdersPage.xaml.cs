@@ -15,6 +15,12 @@ namespace HRApp.Views
     {
         public ObservableCollection<OrderDisplay> OrdersList { get; set; } = new();
 
+        private static readonly string[] Months = new[]
+        {
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        };
+
         public OrdersPage()
         {
             InitializeComponent();
@@ -180,35 +186,123 @@ namespace HRApp.Views
                     var doc = DocX.Load(templatePath);
 
                     using var context = new HRDbContext();
-                    var emp = context.Employees.FirstOrDefault(e =>
-                        order.EmployeeName.Contains(e.Surename) &&
-                        order.EmployeeName.Contains(e.FirstName));
+                    var orderModel = context.Orders.FirstOrDefault(o => o.Id == order.Id);
+                    if (orderModel == null)
+                    {
+                        MessageBox.Show("Приказ не найден в базе данных.");
+                        return;
+                    }
 
-                    string surename = emp?.Surename ?? "";
-                    string firstname = emp?.FirstName ?? "";
-                    string secondname = emp?.SecondName ?? "";
+                    var emp = context.Employees.FirstOrDefault(e => e.Id == orderModel.EmployeeId);
 
-                    doc.ReplaceText("<RegNumber>", order.RegNumber);
-                    doc.ReplaceText("<DocDate>", order.DocDate.ToShortDateString());
-                    doc.ReplaceText("<StartDate>", order.StartDate.ToShortDateString());
-                    doc.ReplaceText("<Base>", order.Base);
-                    doc.ReplaceText("<Content>", order.Content);
-                    doc.ReplaceText("<EmployeeName>", order.EmployeeName);
-                    doc.ReplaceText("<ExportDate>", DateTime.Today.ToShortDateString());
-
-                    doc.ReplaceText("<Surename>", surename);
-                    doc.ReplaceText("<FirstName>", firstname);
-                    doc.ReplaceText("<SecondName>", secondname);
+                    string surename = emp?.Surename ?? string.Empty;
+                    string firstname = emp?.FirstName ?? string.Empty;
+                    string secondname = emp?.SecondName ?? string.Empty;
 
                     string position = emp?.PositionId != null ?
-                        context.Positions.FirstOrDefault(p => p.Id == emp.PositionId)?.Title ?? "" : "";
+                        context.Positions.FirstOrDefault(p => p.Id == emp.PositionId)?.Title ?? string.Empty : string.Empty;
 
                     string department = emp?.DepartmentId != null ?
-                        context.Departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "" : "";
+                        context.Departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? string.Empty : string.Empty;
 
-                    doc.ReplaceText("<Position>", position);
-                    doc.ReplaceText("<Department>", department);
+                    switch (templateName)
+                    {
+                        case "orderAgreement.docx":
+                            doc.ReplaceText("<DocNumber>", orderModel.RegNumber);
+                            doc.ReplaceText("<DocDate>", orderModel.DocDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<HireDate>", orderModel.StartDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<TabNumber>", emp?.TabNumber ?? string.Empty);
+                            doc.ReplaceText("<Surename>", surename);
+                            doc.ReplaceText("<FirstName>", firstname);
+                            doc.ReplaceText("<SecondName>", secondname);
+                            doc.ReplaceText("<Department>", department);
+                            doc.ReplaceText("<Position>", position);
+                            doc.ReplaceText("<Base>", orderModel.Base);
+                            break;
+                        case "orderDismissal.docx":
+                            doc.ReplaceText("<RegNumber>", orderModel.RegNumber);
+                            doc.ReplaceText("<DocDate>", orderModel.DocDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<StartDate>", orderModel.StartDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<Surename>", surename);
+                            doc.ReplaceText("<FirstName>", firstname);
+                            doc.ReplaceText("<SecondName>", secondname);
+                            doc.ReplaceText("<Department>", department);
+                            doc.ReplaceText("<Position>", position);
+                            doc.ReplaceText("<Base>", orderModel.Base);
+                            break;
+                        case "orderVacation.docx":
+                            var vacation = context.Vacations.FirstOrDefault(v => v.EmployeeId == orderModel.EmployeeId && v.StartDate == orderModel.StartDate);
+                            DateTime vs = vacation?.StartDate ?? orderModel.StartDate;
+                            DateTime ve = vacation?.EndDate ?? orderModel.StartDate;
+                            int days = vacation?.CalendarDaysNumber ?? (int)(ve - vs).TotalDays + 1;
 
+                            string MonthName(DateTime d) => Months[d.Month - 1];
+
+                            doc.ReplaceText("<surename>", surename);
+                            doc.ReplaceText("<firstname>", firstname);
+                            doc.ReplaceText("<secondname>", secondname);
+                            doc.ReplaceText("<Servicenumber>", emp?.TabNumber ?? string.Empty);
+                            doc.ReplaceText("<workplacetype>", department);
+                            doc.ReplaceText("<work>", position);
+                            doc.ReplaceText("<VacationType>", vacation?.VacationType ?? string.Empty);
+                            doc.ReplaceText("<vacationDaysA>", days.ToString());
+                            doc.ReplaceText("<vacationDaysB>", days.ToString());
+                            doc.ReplaceText("<vacationDaysC>", days.ToString());
+
+                            void FillDates(string sDay, string sMonth, string sYear, string eDay, string eMonth, string eYear)
+                            {
+                                doc.ReplaceText(sDay, vs.ToString("dd"));
+                                doc.ReplaceText(sMonth, MonthName(vs));
+                                doc.ReplaceText(sYear, vs.ToString("yy"));
+                                doc.ReplaceText(eDay, ve.ToString("dd"));
+                                doc.ReplaceText(eMonth, MonthName(ve));
+                                doc.ReplaceText(eYear, ve.ToString("yy"));
+                            }
+
+                            FillDates("<wsd>", "<wsmonth>", "<wsy>", "<wed>", "<wemonth>", "<wey>");
+                            FillDates("<sda>", "<smontha>", "<sya>", "<eda>", "<emontha>", "<eya>");
+                            FillDates("<sdb>", "<smonthb>", "<syb>", "<edb>", "<emonthb>", "<eyb>");
+                            FillDates("<sdc>", "<smothc>", "<syc>", "<edc>", "<emonthc>", "<eyc>");
+
+                            doc.ReplaceText("<datetimepicker1>", DateTime.Today.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<regDate>", orderModel.RegNumber);
+                            break;
+                        case "orderBusinessTrip.docx":
+                            var trip = context.BusinessTrips.FirstOrDefault(t => t.EmployeeId == orderModel.EmployeeId && t.TripStartDate == orderModel.StartDate);
+                            DateTime ts = trip?.TripStartDate ?? orderModel.StartDate;
+                            DateTime te = trip?.TripEndDate ?? orderModel.StartDate;
+
+                            doc.ReplaceText("<Esurename>", surename);
+                            doc.ReplaceText("<Efirstname>", firstname);
+                            doc.ReplaceText("<Esecondname>", secondname);
+                            doc.ReplaceText("<Servicenumber>", emp?.TabNumber ?? string.Empty);
+                            doc.ReplaceText("<workplacetype>", department);
+                            doc.ReplaceText("<work>", position);
+                            doc.ReplaceText("<aimPlace>", trip?.Destination ?? string.Empty);
+                            doc.ReplaceText("<aim>", trip?.Purpose ?? string.Empty);
+                            doc.ReplaceText("<tripDays>", ((te - ts).Days + 1).ToString());
+                            doc.ReplaceText("<sd>", ts.ToString("dd"));
+                            doc.ReplaceText("<smonth>", Months[ts.Month - 1]);
+                            doc.ReplaceText("<sy>", ts.ToString("yy"));
+                            doc.ReplaceText("<ed>", te.ToString("dd"));
+                            doc.ReplaceText("<emonth>", Months[te.Month - 1]);
+                            doc.ReplaceText("<ey>", te.ToString("yy"));
+                            doc.ReplaceText("<orederInfo>", trip?.Purpose ?? string.Empty);
+                            doc.ReplaceText("<regNumber>", orderModel.RegNumber);
+                            doc.ReplaceText("<DateTime.Now>", DateTime.Today.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<Dwork>", "Директор");
+                            break;
+                        case "orderMoveEmployee.docx":
+                            doc.ReplaceText("<Surename>", surename);
+                            doc.ReplaceText("<FirstName>", firstname);
+                            doc.ReplaceText("<SecondName>", secondname);
+                            doc.ReplaceText("<MoveDate>", orderModel.StartDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<Base>", orderModel.Base);
+                            doc.ReplaceText("<DocDate>", orderModel.DocDate.ToString("dd.MM.yyyy"));
+                            doc.ReplaceText("<Department>", department);
+                            doc.ReplaceText("<Position>", position);
+                            break;
+                    }
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Экспорт завершён.");
