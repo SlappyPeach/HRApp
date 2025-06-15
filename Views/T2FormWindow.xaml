@@ -196,25 +196,116 @@
                 <!-- Паспортные данные -->
                 <Expander Header="Паспорт" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <TextBox x:Name="PassportTypeTextBox" materialDesign:HintAssist.Hint="Тип документа (паспорт) *" Margin="0,5"/>
-                        <TextBox x:Name="PassportNumberTextBox" materialDesign:HintAssist.Hint="Серия и номер паспорта *" Margin="0,5"/>
-                        <TextBox x:Name="PassportDateTextBox" materialDesign:HintAssist.Hint="Дата выдачи (дд.мм.гггг) *" Margin="0,5"/>
-                        <TextBox x:Name="PassportPlaceTextBox" materialDesign:HintAssist.Hint="Кем выдан *" Margin="0,5"/>
-                        <TextBox x:Name="INNTextBox" materialDesign:HintAssist.Hint="ИНН *" Margin="0,5"/>
-                        <TextBox x:Name="SNILSTextBox" materialDesign:HintAssist.Hint="СНИЛС *" Margin="0,5"/>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Тип документа" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="PassportTypeTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Серия и номер паспорта" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="PassportNumberTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Дата выдачи" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="PassportDateTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кем выдан" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="PassportPlaceTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ИНН" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="INNTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="СНИЛС" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="SNILSTextBox" Grid.Column="1"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
 
                 <!-- Адрес -->
                 <Expander Header="Адрес" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <TextBox x:Name="Index1TextBox" materialDesign:HintAssist.Hint="Почтовый индекс (прописка) *" Margin="0,5"/>
-                        <TextBox x:Name="Address1TextBox" materialDesign:HintAssist.Hint="Адрес прописки *" Margin="0,5"/>
-                        <TextBox x:Name="Address1DateTextBox" materialDesign:HintAssist.Hint="Дата регистрации по месту прописки * (дд.мм.гггг)" Margin="0,5"/>
-                        <TextBox x:Name="Index2TextBox" materialDesign:HintAssist.Hint="Почтовый индекс (факт.) *" Margin="0,5"/>
-                        <TextBox x:Name="Address2TextBox" materialDesign:HintAssist.Hint="Адрес проживания *" Margin="0,5"/>
-                        <TextBox x:Name="TelNumberTextBox" materialDesign:HintAssist.Hint="Номер телефона *" Margin="0,5"/>
-                        <TextBox x:Name="FamilyStatusTextBox" materialDesign:HintAssist.Hint="Семейное положение" Margin="0,5"/>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Почтовый индекс (прописка)" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Index1TextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Адрес прописки" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Address1TextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Дата регистрации" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Address1DateTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Почтовый индекс (факт.)" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Index2TextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Адрес проживания" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Address2TextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Номер телефона" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TelNumberTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Семейное положение" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="FamilyStatusTextBox" Grid.Column="1"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
 
@@ -222,15 +313,78 @@
                 <Expander Header="Воинский учет" IsExpanded="False" Margin="0,0,0,5">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="20">
-                            <TextBox x:Name="StockCategoryTextBox" materialDesign:HintAssist.Hint="Категория запаса" Margin="0,5"/>
-                            <TextBox x:Name="RankTextBox" materialDesign:HintAssist.Hint="Воинское звание" Margin="0,5"/>
-                            <TextBox x:Name="CompoundTextBox" materialDesign:HintAssist.Hint="Состав (профиль)" Margin="0,5"/>
-                            <TextBox x:Name="VYSTextBox" materialDesign:HintAssist.Hint="Полное кодовое обозначение ВУС" Margin="0,5"/>
-                            <TextBox x:Name="MilitaryServiceTextBox" materialDesign:HintAssist.Hint="Категория годности к военной службе" Margin="0,5"/>
-                            <TextBox x:Name="MillitaryOfficeTextBox" materialDesign:HintAssist.Hint="Наименование военного комиссариата" Margin="0,5"/>
-                            <TextBox x:Name="AccountingGroupTextBox" materialDesign:HintAssist.Hint="Общий учет (номер команды, партии)" Margin="0,5"/>
-                            <TextBox x:Name="SpecAccountingTextBox" materialDesign:HintAssist.Hint="Специальный учет" Margin="0,5"/>
-                            <TextBox x:Name="DeregistrationNoteTextBox" materialDesign:HintAssist.Hint="Отметка о снятии с учета" Margin="0,5"/>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Категория запаса" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="StockCategoryTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Воинское звание" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="RankTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Состав (профиль)" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="CompoundTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Полное кодовое обозначение ВУС" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="VYSTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Категория годности к военной службе" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="MilitaryServiceTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Наименование военного комиссариата" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="MillitaryOfficeTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Общий учет (номер команды, партии)" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="AccountingGroupTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Специальный учет" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="SpecAccountingTextBox" Grid.Column="1"/>
+                            </Grid>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Отметка о снятии с учета" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="DeregistrationNoteTextBox" Grid.Column="1"/>
+                            </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </Expander>
@@ -238,13 +392,62 @@
                 <!-- Банковские реквизиты -->
                 <Expander Header="Банковские реквизиты" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <TextBox x:Name="NomerSchetaTextBox" materialDesign:HintAssist.Hint="Номер счёта" Margin="0,5"/>
-                        <TextBox x:Name="BankNameTextBox" materialDesign:HintAssist.Hint="Банк получателя" Margin="0,5"/>
-                        <TextBox x:Name="BIKTextBox" materialDesign:HintAssist.Hint="БИК" Margin="0,5"/>
-                        <TextBox x:Name="KorschetTextBox" materialDesign:HintAssist.Hint="Корреспондентский счёт" Margin="0,5"/>
-                        <TextBox x:Name="KPPTextBox" materialDesign:HintAssist.Hint="КПП" Margin="0,5"/>
-                        <TextBox x:Name="OKPOTextBox" materialDesign:HintAssist.Hint="ОКПО" Margin="0,5"/>
-                        <TextBox x:Name="OGRNTextBox" materialDesign:HintAssist.Hint="ОГРН" Margin="0,5"/>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Номер счёта" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="NomerSchetaTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Банк получателя" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="BankNameTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="БИК" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="BIKTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Корреспондентский счёт" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="KorschetTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="КПП" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="KPPTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ОКПО" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="OKPOTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ОГРН" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="OGRNTextBox" Grid.Column="1"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
 
