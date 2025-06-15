@@ -567,7 +567,10 @@ namespace HRApp.Views
         {
             var ph = doc.Paragraphs.FirstOrDefault(p => p.Text.Contains(placeholder));
             if (ph == null) return;
+
+            int phIndex = doc.Paragraphs.IndexOf(ph);
             ph.ReplaceText(placeholder, string.Empty);
+            var updatedParagraph = doc.Paragraphs[phIndex];
 
             var table = doc.AddTable(rows.Count() + 1, headers.Length);
             table.Design = TableDesign.TableGrid;
@@ -583,7 +586,7 @@ namespace HRApp.Views
                 rowIndex++;
             }
 
-            ph.InsertTableAfterSelf(table);
+            updatedParagraph.InsertTableAfterSelf(table);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
