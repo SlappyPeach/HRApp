@@ -519,32 +519,35 @@ namespace HRApp.Views
             doc.ReplaceText("<Department>", departmentName);
 
 
-            // --- Таблицы ---
-            InsertTableAfterPlaceholder(doc, "<<<LANG_TABLE>>>", new[] { "Язык", "Уровень" },
+            // --- Таблицы (через закладки) ---
+            InsertTableAtBookmark(doc, "LANG_TABLE",
+                new[] { "Язык", "Уровень" },
                 LanguageList.Select(l => new[] { l.LanguageName, l.LanguageLevel }));
 
-            InsertTableAfterPlaceholder(doc, "<<<EDU_TABLE>>>", new[] { "Тип", "Учреждение", "Документ", "Год" },
+            InsertTableAtBookmark(doc, "EDU_TABLE",
+                new[] { "Тип", "Учреждение", "Документ", "Год" },
                 EducationList.Select(e => new[] { e.EducationType, e.InstitutionName, e.DocName, e.EndYear.ToString() }));
 
-            InsertTableAfterPlaceholder(doc, "<<<FAM_TABLE>>>", new[] { "Родство", "ФИО", "Год рождения", "Пол", "Налоговый вычет" },
+            InsertTableAtBookmark(doc, "FAM_TABLE",
+                new[] { "Родство", "ФИО", "Год рождения", "Пол", "Налоговый вычет" },
                 FamilyList.Select(f => new[] { f.Relation, f.FIO, f.BirthYear.ToString(), f.Gender ?? "", f.HasTaxBenefit ? "Да" : "Нет" }));
 
-            InsertTableAfterPlaceholder(doc, "<<<CERTIFICATION_TABLE>>>",
+            InsertTableAtBookmark(doc, "CERT_TABLE",
                 new[] { "Дата аттестации", "Решение", "Категория", "Документ", "Дата следующей" },
                 CertificationList.Select(c => new[] {
-            c.Date.ToShortDateString(), c.Resolution, c.Category,
-            $"{c.DocNumber} от {c.DocDate.ToShortDateString()}",
-            c.NextDate.ToShortDateString()
+                    c.Date.ToShortDateString(), c.Resolution, c.Category,
+                    $"{c.DocNumber} от {c.DocDate.ToShortDateString()}",
+                    c.NextDate.ToShortDateString()
                 }));
 
-            InsertTableAfterPlaceholder(doc, "<<<COURSE_TABLE>>>",
+            InsertTableAtBookmark(doc, "COURSE_TABLE",
                 new[] { "Тип", "Учреждение", "Документ", "Дата начала", "Дата окончания" },
                 CourseList.Select(c => new[] {
-            c.CourseType, c.Institution, c.Certificate,
-            c.StartDate.ToShortDateString(), c.EndDate.ToShortDateString()
+                    c.CourseType, c.Institution, c.Certificate,
+                    c.StartDate.ToShortDateString(), c.EndDate.ToShortDateString()
                 }));
 
-            InsertTableAfterPlaceholder(doc, "<<<AWARD_TABLE>>>",
+            InsertTableAtBookmark(doc, "AWARD_TABLE",
                 new[] { "Дата", "Номер", "Подразделение", "Тип" },
                 AwardList.Select(a => new[]
                 {
@@ -554,7 +557,7 @@ namespace HRApp.Views
                     a.AwardType
                 }));
 
-            InsertTableAfterPlaceholder(doc, "<<<BENEFIT_TABLE>>>",
+            InsertTableAtBookmark(doc, "BENEFIT_TABLE",
                 new[] { "Вид льготы", "Документ", "Дата" },
                 BenefitList.Select(b => new[] { b.Type, b.Document, b.Date.ToShortDateString() }));
 
@@ -563,28 +566,37 @@ namespace HRApp.Views
             MessageBox.Show("Экспорт завершён.");
         }
 
-        private void InsertTableAfterPlaceholder(DocX doc, string placeholder, string[] headers, IEnumerable<string[]> rows)
+        private void InsertTableAtBookmark(
+        DocX doc,
+        string bookmarkName,
+        string[] headers,
+        IEnumerable<string[]> rows)
         {
-            doc.ReplaceText(placeholder, "");
+            // 0. Находим закладку с указанным именем
+            var bm = doc.Bookmarks.FirstOrDefault(b => b.Name == bookmarkName);
+            if (bm == null) return; // если закладка не найдена — тихо выходим
 
-            var insertAfter = doc.Paragraphs.FirstOrDefault(p => string.IsNullOrWhiteSpace(p.Text));
-            if (insertAfter == null) return;
-
+            // 1. Строим таблицу
             var table = doc.AddTable(rows.Count() + 1, headers.Length);
             table.Design = TableDesign.TableGrid;
 
-            for (int i = 0; i < headers.Length; i++)
-                table.Rows[0].Cells[i].Paragraphs[0].Append(headers[i]);
+            for (int c = 0; c < headers.Length; c++)
+                table.Rows[0].Cells[c].Paragraphs[0].Append(headers[c]);
 
-            int rowIndex = 1;
+            int r = 1;
             foreach (var row in rows)
             {
-                for (int col = 0; col < headers.Length && col < row.Length; col++)
-                    table.Rows[rowIndex].Cells[col].Paragraphs[0].Append(row[col]);
-                rowIndex++;
+                for (int c = 0; c < headers.Length && c < row.Length; c++)
+                    table.Rows[r].Cells[c].Paragraphs[0].Append(row[c] ?? "");
+                r++;
             }
 
-            insertAfter.InsertTableAfterSelf(table);
+            // 2. Вставляем таблицу сразу после параграфа, содержащего BookmarkStart
+            Paragraph host = bm.Paragraph;
+            host.InsertTableAfterSelf(table);
+
+            // 3. (Опционально) удаляем закладку, чтобы она не попала в итоговый документ
+            bm.Remove();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
