@@ -16,26 +16,74 @@
 
         <!-- Поля -->
         <StackPanel Grid.Row="1">
-            <ComboBox x:Name="EmployeeComboBox" Margin="0,5"
-                      materialDesign:HintAssist.Hint="Выберите сотрудника"/>
-            <TextBox x:Name="DateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата аттестации (дд.мм.гггг)"/>
-            <TextBox x:Name="ResolutionTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Решение комиссии"/>
-            <ComboBox x:Name="CategoryComboBox" Margin="0,5"
-          materialDesign:HintAssist.Hint="Категория">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Сотрудник" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="EmployeeComboBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата аттестации" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="DateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Решение комиссии" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="ResolutionTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Категория" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="CategoryComboBox" Grid.Column="1">
                 <ComboBoxItem Content="Высшая"/>
                 <ComboBoxItem Content="Первая"/>
                 <ComboBoxItem Content="Соответствие должности"/>
-            </ComboBox>
-            <TextBox x:Name="DocNumberTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Номер документа"/>
-            <TextBox x:Name="DocDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата документа (дд.мм.гггг)"/>
-            <TextBox x:Name="BaseTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Основание"/>
-            <TextBox x:Name="NextDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата следующей аттестации"/>
+                </ComboBox>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Номер документа" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="DocNumberTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата документа" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="DocDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Основание" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="BaseTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Следующая аттестация" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="NextDateTextBox" Grid.Column="1"/>
+            </Grid>
         </StackPanel>
 
         <!-- Кнопки -->

@@ -17,18 +17,54 @@
 
         <!-- Поля -->
         <StackPanel Grid.Row="1">
-            <ComboBox x:Name="EmployeeComboBox" Margin="0,5"
-                      materialDesign:HintAssist.Hint="Выберите сотрудника"/>
-            <TextBox x:Name="NewDepartmentTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Новый отдел"/>
-            <TextBox x:Name="NewPositionTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Новая должность"/>
-            <TextBox x:Name="MoveDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата перевода (дд.мм.гггг)"/>
-            <TextBox x:Name="BaseTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Основание"/>
-            <TextBox x:Name="MoveTypeTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Тип перевода (постоянный/временный)"/>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Сотрудник" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="EmployeeComboBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Новый отдел" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="NewDepartmentTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Новая должность" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="NewPositionTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата перевода" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="MoveDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Основание" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="BaseTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Тип перевода" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="MoveTypeTextBox" Grid.Column="1"/>
+            </Grid>
         </StackPanel>
 
         <!-- Кнопки -->

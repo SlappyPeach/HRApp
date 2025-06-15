@@ -20,54 +20,150 @@
         <!-- Поля -->
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <TextBox x:Name="SurenameTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Фамилия *"/>
-                <TextBox x:Name="FirstNameTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Имя *"/>
-                <TextBox x:Name="SecondNameTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Отчество"/>
-                <TextBox x:Name="BirthDateTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Дата рождения (дд.мм.гггг)"/>
-                <ComboBox x:Name="SexComboBox" Margin="0,5"
-                          materialDesign:HintAssist.Hint="Пол">
-                    <ComboBoxItem Content="Мужской"/>
-                    <ComboBoxItem Content="Женский"/>
-                </ComboBox>
-                <TextBox x:Name="CitizenshipTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Гражданство"/>
-                <TextBox x:Name="AddressTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Адрес проживания"/>
-                <TextBox x:Name="PhoneTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Телефон"/>
-                <TextBox x:Name="TabNumberTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Табельный номер"/>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Фамилия" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SurenameTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Имя" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="FirstNameTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Отчество" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SecondNameTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Дата рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="BirthDateTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Пол" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="SexComboBox" Grid.Column="1">
+                        <ComboBoxItem Content="Мужской"/>
+                        <ComboBoxItem Content="Женский"/>
+                    </ComboBox>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Гражданство" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CitizenshipTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Адрес проживания" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="AddressTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Телефон" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PhoneTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Табельный номер" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TabNumberTextBox" Grid.Column="1"/>
+                </Grid>
 
-                <ComboBox x:Name="DepartmentComboBox" Margin="0,10,0,5"
-                          materialDesign:HintAssist.Hint="Структурное подразделение"
-                          SelectionChanged="DepartmentComboBox_SelectionChanged"/>
-                <ComboBox x:Name="PositionComboBox" Margin="0,5"
-                          materialDesign:HintAssist.Hint="Должность"
-                          SelectionChanged="PositionComboBox_SelectionChanged"/>
+                <Grid Margin="0,10,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Структурное подразделение" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="DepartmentComboBox" Grid.Column="1" SelectionChanged="DepartmentComboBox_SelectionChanged"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Должность" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="PositionComboBox" Grid.Column="1" SelectionChanged="PositionComboBox_SelectionChanged"/>
+                </Grid>
 
                 <Grid x:Name="LoadGrid" Margin="0,5" Visibility="Collapsed">
-                    <TextBox x:Name="LoadTextBox"
-                            materialDesign:HintAssist.Hint="Нагрузка"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Нагрузка" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="LoadTextBox" Grid.Column="1"/>
                 </Grid>
 
                 <Grid x:Name="RateGrid" Margin="0,5" Visibility="Collapsed">
-                    <TextBox x:Name="RateTextBox"
-                            materialDesign:HintAssist.Hint="Ставка"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Ставка" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="RateTextBox" Grid.Column="1"/>
                 </Grid>
 
 
-                <TextBox x:Name="SalaryTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Оклад"/>
-                <ComboBox x:Name="AgreementTypeComboBox" Margin="0,5"
-                          materialDesign:HintAssist.Hint="Тип договора"/>
-                <ComboBox x:Name="ProbationComboBox" Margin="0,5"
-                          materialDesign:HintAssist.Hint="Срок испытания"/>
-                <TextBox x:Name="WorkStartDateTextBox" Margin="0,5"
-                         materialDesign:HintAssist.Hint="Дата начала работы (дд.мм.гггг)"/>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Оклад" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SalaryTextBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Тип договора" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="AgreementTypeComboBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Срок испытания" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ProbationComboBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Дата начала работы" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="WorkStartDateTextBox" Grid.Column="1"/>
+                </Grid>
 
                 <TextBlock x:Name="ResumeFileNameText" FontStyle="Italic" Foreground="Gray" Margin="0,5"/>
             </StackPanel>

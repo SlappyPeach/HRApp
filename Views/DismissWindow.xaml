@@ -15,12 +15,30 @@
                    HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
         <StackPanel Grid.Row="1">
-            <ComboBox x:Name="EmployeeComboBox" Margin="0,5"
-                      materialDesign:HintAssist.Hint="Выберите сотрудника"/>
-            <TextBox x:Name="DismissDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата увольнения (дд.мм.гггг)"/>
-            <TextBox x:Name="BaseTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Основание"/>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Сотрудник" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="EmployeeComboBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата увольнения" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="DismissDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Основание" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="BaseTextBox" Grid.Column="1"/>
+            </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">

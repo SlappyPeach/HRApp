@@ -17,18 +17,53 @@
 
         <!-- Поля -->
         <StackPanel Grid.Row="1">
-            <ComboBox x:Name="EmployeeComboBox" Margin="0,5"
-                      materialDesign:HintAssist.Hint="Выберите сотрудника"/>
-            <TextBox x:Name="StartDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата начала (дд.мм.гггг)"/>
-            <TextBox x:Name="EndDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата окончания (дд.мм.гггг)"/>
-            <TextBox x:Name="DaysTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Количество календарных дней"/>
-            <TextBox x:Name="BaseTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Основание"/>
-            <ComboBox x:Name="VacationTypeComboBox" Margin="0,5"
-                        materialDesign:HintAssist.Hint="Вид отпуска">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Сотрудник" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="EmployeeComboBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата начала" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="StartDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата окончания" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="EndDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Количество дней" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="DaysTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Основание" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="BaseTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Вид отпуска" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="VacationTypeComboBox" Grid.Column="1">
                 <ComboBoxItem Content="Ежегодный"/>
                 <ComboBoxItem Content="Основной оплачиваемый отпуск"/>
                 <ComboBoxItem Content="Ежегодный дополнительный оплачиваемый отпуск"/>
@@ -36,13 +71,14 @@
                 <ComboBoxItem Content="Без сохранения заработной платы"/>
                 <ComboBoxItem Content="Отпуск по уходу за ребёнком до 3 лет"/>
                 <ComboBoxItem Content="Отпуск по уходу за инвалидом"/>
-            </ComboBox>
+                </ComboBox>
+            </Grid>
         </StackPanel>
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
             <Button Content="Сохранить" Click="SaveButton_Click" Margin="5"/>
-            <Button Content="Экспорт DOCX" Click="ExportButton_Click" Margin="5"/>
+            <Button Content="Экспорт" Click="ExportButton_Click" Margin="5"/>
             <Button Content="Отмена" Click="CancelButton_Click" Margin="5"/>
         </StackPanel>
     </Grid>

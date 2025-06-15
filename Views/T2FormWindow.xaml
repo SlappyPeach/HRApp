@@ -22,20 +22,97 @@
                 <!-- Общие сведения -->
                 <Expander Header="Общие сведения" IsExpanded="True" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <TextBox x:Name="SurenameTextBox" materialDesign:HintAssist.Hint="Фамилия *" Margin="0,5"/>
-                        <TextBox x:Name="FirstNameTextBox" materialDesign:HintAssist.Hint="Имя *" Margin="0,5"/>
-                        <TextBox x:Name="SecondNameTextBox" materialDesign:HintAssist.Hint="Отчество *" Margin="0,5"/>
-                        <TextBox x:Name="BirthDateTextBox" materialDesign:HintAssist.Hint="Дата рождения (дд.мм.гггг) *" Margin="0,5"/>
-                        <TextBox x:Name="BirthPlaceTextBox" materialDesign:HintAssist.Hint="Место рождения *" Margin="0,5"/>
-                        <TextBox x:Name="BirthPlaceOKATOTextBox" materialDesign:HintAssist.Hint="ОКАТО места рождения *" Margin="0,5"/>
-                        <ComboBox x:Name="SexComboBox" materialDesign:HintAssist.Hint="Пол *" Margin="0,5">
-                            <ComboBoxItem Content="Мужской"/>
-                            <ComboBoxItem Content="Женский"/>
-                        </ComboBox>
-                        <TextBox x:Name="CitizenshipTextBox" materialDesign:HintAssist.Hint="Гражданство *" Margin="0,5"/>
-                        <TextBox x:Name="CitizenshipOKINTextBox" materialDesign:HintAssist.Hint="ОКИН гражданства *" Margin="0,5"/>
-                        <TextBox x:Name="PositionTextBox" materialDesign:HintAssist.Hint="Должность" Margin="0,5" IsReadOnly="True"/>
-                        <TextBox x:Name="DepartmentTextBox" materialDesign:HintAssist.Hint="Структурное подразделение" Margin="0,5" IsReadOnly="True"/>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Фамилия" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="SurenameTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Имя" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="FirstNameTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Отчество" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="SecondNameTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Дата рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="BirthDateTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Место рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="BirthPlaceTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ОКАТО места рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="BirthPlaceOKATOTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Пол" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="SexComboBox" Grid.Column="1">
+                                <ComboBoxItem Content="Мужской"/>
+                                <ComboBoxItem Content="Женский"/>
+                            </ComboBox>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Гражданство" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="CitizenshipTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ОКИН гражданства" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="CitizenshipOKINTextBox" Grid.Column="1"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Должность" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="PositionTextBox" Grid.Column="1" IsReadOnly="True"/>
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Структурное подразделение" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DepartmentTextBox" Grid.Column="1" IsReadOnly="True"/>
+                        </Grid>
                     </StackPanel>
                 </Expander>
 

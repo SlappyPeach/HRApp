@@ -14,16 +14,46 @@
 
         <!-- Поля ввода -->
         <StackPanel Grid.Row="0">
-            <TextBox x:Name="CourseTypeTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Тип (повышение, переподготовка)"/>
-            <TextBox x:Name="InstitutionTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Учебное заведение"/>
-            <TextBox x:Name="CertificateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Документ (удостоверение, диплом)"/>
-            <TextBox x:Name="StartDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата начала (дд.мм.гггг)"/>
-            <TextBox x:Name="EndDateTextBox" Margin="0,5"
-                     materialDesign:HintAssist.Hint="Дата окончания (дд.мм.гггг)"/>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Тип" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="CourseTypeTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Учреждение" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="InstitutionTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Документ" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="CertificateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата начала" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="StartDateTextBox" Grid.Column="1"/>
+            </Grid>
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата окончания" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="EndDateTextBox" Grid.Column="1"/>
+            </Grid>
         </StackPanel>
 
         <!-- Кнопки -->
