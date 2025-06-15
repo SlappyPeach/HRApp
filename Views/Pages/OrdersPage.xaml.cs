@@ -111,14 +111,7 @@ namespace HRApp.Views
                 OrderEmployeeTextBlock.Text = "Сотрудник:";
             }
         }
-
-        private void AddOrder_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new AddOrderWindow();
-            window.ShowDialog();
-            LoadOrders();
-        }
-
+        
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
             if (OrdersDataGrid.SelectedItem is not OrderDisplay order)

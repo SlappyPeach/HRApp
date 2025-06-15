@@ -255,27 +255,6 @@ namespace HRApp.Views
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
-
-        private void ResumeButton_Click(object sender, RoutedEventArgs e)
-        {
-            var ofd = new OpenFileDialog
-            {
-                Filter = "Файлы резюме (*.pdf;*.docx)|*.pdf;*.docx",
-                Title = "Выберите файл резюме"
-            };
-
-            if (ofd.ShowDialog() == true)
-            {
-                ResumeFileNameText.Text = $"Загружено: {Path.GetFileName(ofd.FileName)}";
-
-                using var context = new HRDbContext();
-                var lastEmployee = context.Employees.OrderByDescending(e => e.Id).FirstOrDefault();
-                if (lastEmployee != null)
-                {
-                    lastEmployee.ResumePath = ofd.FileName;
-                    context.SaveChanges();
-                }
-            }
-        }
+                
     }
 }
