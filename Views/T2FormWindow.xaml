@@ -218,9 +218,10 @@
                         <DataGrid x:Name="AwardDataGrid" ItemsSource="{Binding AwardList}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,5">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
-                                <DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="*"/>
-                                <DataGridTextColumn Header="Кем выдана" Binding="{Binding GrantedBy}" Width="*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding AwardDate, StringFormat=d}" Width="*"/>
+                                <DataGridTextColumn Header="Номер" Binding="{Binding AwardNumber}" Width="*"/>
+                                <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" Width="*"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding AwardType}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

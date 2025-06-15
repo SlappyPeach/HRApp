@@ -13,11 +13,22 @@ namespace HRApp.Views
     public partial class CertificationWindow : Window
     {
         private List<Employee> employees;
+        private readonly int? preselectedEmployeeId;
 
         public CertificationWindow()
         {
             InitializeComponent();
             LoadEmployees();
+        }
+
+        public CertificationWindow(int employeeId) : this()
+        {
+            preselectedEmployeeId = employeeId;
+            if (preselectedEmployeeId.HasValue)
+            {
+                EmployeeComboBox.SelectedValue = preselectedEmployeeId.Value;
+                EmployeeComboBox.IsEnabled = false;
+            }
         }
 
         private void LoadEmployees()
@@ -26,6 +37,13 @@ namespace HRApp.Views
             employees = context.Employees.ToList();
             EmployeeComboBox.ItemsSource = employees;
             EmployeeComboBox.DisplayMemberPath = "Surename";
+            EmployeeComboBox.SelectedValuePath = "Id";
+
+            if (preselectedEmployeeId.HasValue)
+            {
+                EmployeeComboBox.SelectedValue = preselectedEmployeeId.Value;
+                EmployeeComboBox.IsEnabled = false;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

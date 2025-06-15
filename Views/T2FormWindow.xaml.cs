@@ -24,7 +24,7 @@ namespace HRApp.Views
         public ObservableCollection<LanguageDisplay> LanguageList { get; set; } = new();
         public ObservableCollection<Certification> CertificationList { get; set; } = new();
         public ObservableCollection<Course> CourseList { get; set; } = new();
-        public ObservableCollection<Award> AwardList { get; set; } = new();
+        public ObservableCollection<EmployeeAward> AwardList { get; set; } = new();
         public ObservableCollection<SocialBenefit> BenefitList { get; set; } = new();
 
         private List<ForeignLanguage> ForeignLanguagesCache;
@@ -32,6 +32,7 @@ namespace HRApp.Views
         public T2FormWindow(int? empId = null)
         {
             InitializeComponent();
+            DataContext = this;
             employeeId = empId;
 
             using var context = new HRDbContext();
@@ -53,6 +54,10 @@ namespace HRApp.Views
             EducationDataGrid.ItemsSource = EducationList;
             FamilyDataGrid.ItemsSource = FamilyList;
             LanguageDataGrid.ItemsSource = LanguageList;
+            CertificationDataGrid.ItemsSource = CertificationList;
+            CourseDataGrid.ItemsSource = CourseList;
+            AwardDataGrid.ItemsSource = AwardList;
+            BenefitDataGrid.ItemsSource = BenefitList;
         }
 
         private void LoadEmployee(int id)
@@ -140,7 +145,7 @@ namespace HRApp.Views
                 CourseList.Add(course);
             
             AwardList.Clear();
-            foreach (var award in context.Awards.Where(a => a.EmployeeId == empId))
+            foreach (var award in context.EmployeeAwards.Where(a => a.EmployeeId == empId))
                 AwardList.Add(award);
 
             BenefitList.Clear();
@@ -190,9 +195,7 @@ namespace HRApp.Views
                 return;
             }
 
-            var certWindow = new CertificationWindow();
-
-            // Устанавливаем выбранного сотрудника сразу (если реализовано в окне)
+            var certWindow = new CertificationWindow(currentEmployee.Id);
             certWindow.ShowDialog();
 
             // Перезагрузим список после закрытия окна
@@ -253,29 +256,27 @@ namespace HRApp.Views
 
         private void AddAward_Click(object sender, RoutedEventArgs e)
         {
-            var title = Microsoft.VisualBasic.Interaction.InputBox("Название награды:", "Добавить награду");
-            var grantedBy = Microsoft.VisualBasic.Interaction.InputBox("Кем выдана:", "Добавить награду");
-            var yearText = Microsoft.VisualBasic.Interaction.InputBox("Год получения:", "Добавить награду");
+            if (currentEmployee == null || currentEmployee.Id == 0)
 
-            if (int.TryParse(yearText, out var year) && !string.IsNullOrWhiteSpace(title))
             {
-                using var context = new HRDbContext();
-                var award = new Award { Title = title, GrantedBy = grantedBy, Year = year, EmployeeId = currentEmployee.Id };
-                context.Awards.Add(award);
-                context.SaveChanges();
-                LoadDynamicData(currentEmployee.Id);
+                MessageBox.Show("Сначала сохраните данные сотрудника.");
+                return;
             }
+            
+            var awardsWindow = new AwardsWindow(currentEmployee.Id);
+            awardsWindow.ShowDialog();
+            LoadDynamicData(currentEmployee.Id);
         }
 
         private void DeleteAward_Click(object sender, RoutedEventArgs e)
         {
-            if (AwardDataGrid.SelectedItem is Award selected)
+            if (AwardDataGrid.SelectedItem is EmployeeAward selected)
             {
                 using var context = new HRDbContext();
-                var item = context.Awards.FirstOrDefault(a => a.Id == selected.Id);
+                var item = context.EmployeeAwards.FirstOrDefault(a => a.Id == selected.Id);
                 if (item != null)
                 {
-                    context.Awards.Remove(item);
+                    context.EmployeeAwards.Remove(item);
                     context.SaveChanges();
                     LoadDynamicData(currentEmployee.Id);
                 }
@@ -544,8 +545,14 @@ namespace HRApp.Views
                 }));
 
             InsertTableAfterPlaceholder(doc, "<<<AWARD_TABLE>>>",
-                new[] { "Название награды", "Год", "Кем присвоена" },
-                AwardList.Select(a => new[] { a.Title, a.Year.ToString(), a.GrantedBy }));
+                new[] { "Дата", "Номер", "Подразделение", "Тип" },
+                AwardList.Select(a => new[]
+                {
+                    a.AwardDate.ToShortDateString(),
+                    a.AwardNumber,
+                    a.Department,
+                    a.AwardType
+                }));
 
             InsertTableAfterPlaceholder(doc, "<<<BENEFIT_TABLE>>>",
                 new[] { "Вид льготы", "Документ", "Дата" },
