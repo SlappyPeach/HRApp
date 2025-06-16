@@ -181,10 +181,45 @@ namespace HRApp.Data
             );
 
             modelBuilder.Entity<SalaryRate>().HasData(
-                new SalaryRate { Id = 1, PositionId = 1, Amount = 100000 },
-                new SalaryRate { Id = 2, PositionId = 2, Amount = 60000 },
-                new SalaryRate { Id = 3, PositionId = 3, Amount = 65000 }
-            );           
+                new SalaryRate { Id = 1, PositionId = 1, Amount = 62090 },
+                new SalaryRate { Id = 2, PositionId = 2, Amount = 47275 },
+                new SalaryRate { Id = 3, PositionId = 3, Amount = 34120 },
+                new SalaryRate { Id = 4, PositionId = 4, Amount = 34580 },
+                new SalaryRate { Id = 5, PositionId = 5, Amount = 56607 },
+                new SalaryRate { Id = 6, PositionId = 6, Amount = 41716 },
+                new SalaryRate { Id = 7, PositionId = 7, Amount = 42206 },
+                new SalaryRate { Id = 8, PositionId = 8, Amount = 30445 },
+                new SalaryRate { Id = 9, PositionId = 9, Amount = 37245 },
+                new SalaryRate { Id = 10, PositionId = 10, Amount = 35678 },
+                new SalaryRate { Id = 11, PositionId = 11, Amount = 34870 },
+                new SalaryRate { Id = 12, PositionId = 12, Amount = 31237 },
+                new SalaryRate { Id = 13, PositionId = 13, Amount = 33000 },
+                new SalaryRate { Id = 14, PositionId = 14, Amount = 36110 },
+                new SalaryRate { Id = 15, PositionId = 15, Amount = 36500 },
+                new SalaryRate { Id = 16, PositionId = 16, Amount = 29400 },
+                new SalaryRate { Id = 17, PositionId = 17, Amount = 31500 },
+                new SalaryRate { Id = 18, PositionId = 18, Amount = 32000 },
+                new SalaryRate { Id = 19, PositionId = 19, Amount = 28950 },
+                new SalaryRate { Id = 20, PositionId = 20, Amount = 37500 },
+                new SalaryRate { Id = 21, PositionId = 21, Amount = 41500 },
+                new SalaryRate { Id = 22, PositionId = 22, Amount = 29000 },
+                new SalaryRate { Id = 23, PositionId = 23, Amount = 25650 },
+                new SalaryRate { Id = 24, PositionId = 24, Amount = 30200 },
+                new SalaryRate { Id = 25, PositionId = 25, Amount = 26500 },
+                new SalaryRate { Id = 26, PositionId = 26, Amount = 28000 },
+                new SalaryRate { Id = 27, PositionId = 27, Amount = 27000 },
+                new SalaryRate { Id = 28, PositionId = 28, Amount = 26000 },
+                new SalaryRate { Id = 29, PositionId = 29, Amount = 22000 },
+                new SalaryRate { Id = 30, PositionId = 30, Amount = 23000 },
+                new SalaryRate { Id = 31, PositionId = 31, Amount = 25000 },
+                new SalaryRate { Id = 32, PositionId = 32, Amount = 21000 },
+                new SalaryRate { Id = 33, PositionId = 33, Amount = 20000 },
+                new SalaryRate { Id = 34, PositionId = 34, Amount = 30000 },
+                new SalaryRate { Id = 35, PositionId = 35, Amount = 24000 },
+                new SalaryRate { Id = 36, PositionId = 36, Amount = 22000 },
+                new SalaryRate { Id = 37, PositionId = 37, Amount = 23000 },
+                new SalaryRate { Id = 38, PositionId = 38, Amount = 21000 }
+            );
 
         }
     }
