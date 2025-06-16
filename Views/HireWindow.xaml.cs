@@ -163,7 +163,6 @@ namespace HRApp.Views
                 AgreementId = agreement.Id
             };
 
-            context.Agreements.Add(agreement);
             context.Orders.Add(order);
             context.RegisterDocuments.Add(new RegisterDocument
             {
