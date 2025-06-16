@@ -15,6 +15,8 @@ namespace HRApp.Models
         public bool Probation { get; set; }
         public string PaySystem { get; set; }
         public decimal Salary { get; set; }
+        public decimal GeneralRate { get; set; }
+        public string? Category { get; set; }
         public string Base { get; set; }
         public string FileName { get; set; }
         public int EmployeeId { get; set; }

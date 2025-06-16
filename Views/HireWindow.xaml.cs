@@ -62,7 +62,7 @@ namespace HRApp.Views
             PositionComboBox.SelectedIndex = -1;
 
             LoadGrid.Visibility = Visibility.Collapsed;
-            RateGrid.Visibility = Visibility.Collapsed;
+            CategoryGrid.Visibility = Visibility.Collapsed;
             LoadTextBox.Text = "";
             RateTextBox.Text = "";
         }
@@ -76,7 +76,7 @@ namespace HRApp.Views
 
             bool isPedagogical = selectedDepartment == "Педагогический персонал";
             LoadGrid.Visibility = isPedagogical ? Visibility.Visible : Visibility.Collapsed;
-            RateGrid.Visibility = isPedagogical ? Visibility.Visible : Visibility.Collapsed;
+            CategoryGrid.Visibility = isPedagogical ? Visibility.Visible : Visibility.Collapsed;
 
             if (positionSalaryMap.TryGetValue(positionTitle, out var salary))
                 SalaryTextBox.Text = salary.ToString("F2");
@@ -136,6 +136,9 @@ namespace HRApp.Views
             context.Employees.Add(employee);
             context.SaveChanges();
 
+            bool pedagogical = DepartmentComboBox.Text == "Педагогический персонал";
+            decimal.TryParse(RateTextBox.Text, out var genRate);
+
             var agreement = new Agreement
             {
                 RegNumber = $"AGR-{DateTime.Now:yyyyMMddHHmmss}",
@@ -144,6 +147,8 @@ namespace HRApp.Views
                 Probation = !ProbationComboBox.Text.Contains("Без"),
                 PaySystem = AgreementTypeComboBox.Text,
                 Salary = decimal.TryParse(SalaryTextBox.Text, out var salary) ? salary : 0,
+                GeneralRate = genRate,
+                Category = pedagogical ? CategoryComboBox.Text : null,
                 Base = "-",
                 FileName = "",
                 EmployeeId = employee.Id
@@ -221,7 +226,8 @@ namespace HRApp.Views
             bool isPedagogical = DepartmentComboBox.Text == "Педагогический персонал";
             doc.ReplaceText("<load>", isPedagogical ? LoadTextBox.Text : "");
             doc.ReplaceText("<rate>", isPedagogical ? RateTextBox.Text : "");
-
+            doc.ReplaceText("<Category>", isPedagogical ? CategoryComboBox.Text : "");
+            doc.ReplaceText("<GeneralRate>", RateTextBox.Text);
             doc.SaveAs(outputPath);
             MessageBox.Show($"Трудовой договор сохранён:\n{outputPath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -252,7 +258,8 @@ namespace HRApp.Views
             doc.ReplaceText("<Probation>", ProbationComboBox.Text);
             doc.ReplaceText("<HireDate>", WorkStartDateTextBox.Text);
             doc.ReplaceText("<TabNumber>", employee.TabNumber ?? "");
-
+            doc.ReplaceText("<GeneralRate>", RateTextBox.Text);
+            doc.ReplaceText("<Category>", DepartmentComboBox.Text == "Педагогический персонал" ? CategoryComboBox.Text : "");
             doc.SaveAs(outputPath);
             MessageBox.Show($"Приказ о приёме сохранён:\n{outputPath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
         }
