@@ -178,7 +178,7 @@ namespace HRApp.Views
 
             context.SaveChanges();
 
-            GenerateContractForEmployee(employee);
+            GenerateContractForEmployee(employee, agreement);
             GenerateOrderForEmployee(employee, order);
             MessageBox.Show("Сотрудник успешно принят.");
 
@@ -188,7 +188,7 @@ namespace HRApp.Views
             Close();
         }
 
-        private void GenerateContractForEmployee(Employee employee)
+        private void GenerateContractForEmployee(Employee employee, Agreement agreement)
         {
             string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "dogovor.docx");
             string outputPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\HRApp\Dogovors\ТрудовойДоговор_{employee.Surename}_{employee.FirstName}.docx";
@@ -205,6 +205,8 @@ namespace HRApp.Views
             doc.ReplaceText("<Esurename>", employee.Surename ?? "");
             doc.ReplaceText("<Efirstname>", employee.FirstName ?? "");
             doc.ReplaceText("<Esecondname>", employee.SecondName ?? "");
+            doc.ReplaceText("<regNumber>", agreement.RegNumber);
+            doc.ReplaceText("<docDate>", agreement.AgreementDate.ToString("dd.MM.yyyy"));
 
             doc.ReplaceText("<work>", PositionComboBox.Text);
             doc.ReplaceText("<department>", DepartmentComboBox.Text);
