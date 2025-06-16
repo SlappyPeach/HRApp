@@ -19,6 +19,8 @@ namespace HRApp.Models
                                                  // "К" – командировка, "Н" – неявка,
                                                  // "В" – выходной или праздничный день
 
+        public decimal Hours { get; set; }
+
         public Employee? Employee { get; set; }
     }
 }

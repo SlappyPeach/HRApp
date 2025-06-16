@@ -65,12 +65,21 @@ namespace HRApp.Views
                     Position = position,
                     Department = department,
                     Days = new string[daysInMonth],
+                    DailyHours = new decimal[daysInMonth],
                     HourRate = (salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount ?? 0m) / 160m
                 };
 
                 for (int i = 0; i < daysInMonth; i++)
                 {
                     var date = new DateTime(year, month, i + 1);
+
+                    var rec = absenceRecords.FirstOrDefault(r => r.EmployeeId == emp.Id && r.Day == i + 1);
+                    if (rec != null)
+                    {
+                        entry.Days[i] = rec.Status;
+                        entry.DailyHours[i] = rec.Hours;
+                        continue;
+                    }
 
                     // Приоритет: Больничный → Отпуск → Командировка → Выходной
                     if (sickLeaves.Any(b => b.EmployeeId == emp.Id && date >= b.FromDate && date <= b.ToDate))
@@ -93,6 +102,8 @@ namespace HRApp.Views
                     {
                         entry.Days[i] = ""; // Явка, неявка — вручную
                     }
+
+                    entry.DailyHours[i] = 0m;
                 }
 
                 timeSheetData.Add(entry);
@@ -104,7 +115,8 @@ namespace HRApp.Views
                 EmployeeName = "ИТОГО:",
                 Position = "",
                 Department = "",
-                Days = new string[daysInMonth]
+                Days = new string[daysInMonth],
+                DailyHours = new decimal[daysInMonth]
             };
 
             timeSheetData.Add(total);
@@ -141,6 +153,12 @@ namespace HRApp.Views
                 {
                     Header = (i + 1).ToString(),
                     Binding = new System.Windows.Data.Binding($"Days[{dayNum}]"),
+                    IsReadOnly = false
+                });
+                TimeSheetDataGrid.Columns.Add(new DataGridTextColumn
+                {
+                    Header = (i + 1).ToString() + " ч",
+                    Binding = new System.Windows.Data.Binding($"DailyHours[{dayNum}]"),
                     IsReadOnly = false
                 });
             }
@@ -192,11 +210,18 @@ namespace HRApp.Views
                 return;
 
             int columnIndex = e.Column.DisplayIndex;
-            int dayIndex = columnIndex - 3;
+            int pairIndex = columnIndex - 3;
+            int dayIndex = pairIndex / 2;
 
-            if (columnIndex >= 3 && columnIndex < 3 + editedEntry.Days.Length)
+            if (pairIndex >= 0 && dayIndex < editedEntry.Days.Length)
             {
-                if (e.EditingElement is TextBox tb)
+                bool hoursColumn = pairIndex % 2 == 1;
+                if (hoursColumn)
+                {
+                    if (e.EditingElement is TextBox tb && decimal.TryParse(tb.Text, out var hrs))
+                        editedEntry.DailyHours[dayIndex] = hrs;
+                }
+                else if (e.EditingElement is TextBox tb)
                 {
                     string input = tb.Text.Trim().ToUpper();
                     string[] allowed = { "Я", "О", "Б", "К", "Н", "В", "" };
@@ -234,6 +259,7 @@ namespace HRApp.Views
             {
                 int countY = timeSheetData.Take(timeSheetData.Count - 1).Count(e => e.Days[d] == "Я");
                 totalRow.Days[d] = countY.ToString();
+                totalRow.DailyHours[d] = timeSheetData.Take(timeSheetData.Count - 1).Sum(e => e.DailyHours[d]);
             }
 
             foreach (var row in timeSheetData)
@@ -288,8 +314,8 @@ namespace HRApp.Views
                     TimeSheetCode = tsCode,
                     DaysPerWeek = 5,
                     HourPrice = entry.HourRate,
-                    HoursWeek1 = entry.HoursFirstHalf,
-                    HoursWeek2 = entry.HoursSecondHalf,
+                    HoursWeek1 = (int)entry.HoursFirstHalf,
+                    HoursWeek2 = (int)entry.HoursSecondHalf,
                     EmployeeId = emp.Id
                 });
 
@@ -304,7 +330,8 @@ namespace HRApp.Views
                         Year = year,
                         Month = month,
                         Day = i + 1,
-                        Status = status
+                        Status = status,
+                        Hours = entry.DailyHours[i]
                     });
                 }
             }
@@ -342,9 +369,12 @@ namespace HRApp.Views
                     ws.Cell(1, 3).Value = "Подразделение";
 
                     for (int d = 0; d < days; d++)
-                        ws.Cell(1, baseCol + d).Value = (d + 1).ToString();
+                    {
+                        ws.Cell(1, baseCol + d * 2).Value = (d + 1).ToString();
+                        ws.Cell(1, baseCol + d * 2 + 1).Value = (d + 1) + " ч";
+                    }
 
-                    int offset = baseCol + days;
+                    int offset = baseCol + days * 2;
                     ws.Cell(1, offset).Value = "Я";
                     ws.Cell(1, offset + 1).Value = "О";
                     ws.Cell(1, offset + 2).Value = "Б";
@@ -365,7 +395,10 @@ namespace HRApp.Views
                         ws.Cell(i + 2, 3).Value = row.Department;
 
                         for (int d = 0; d < days; d++)
-                            ws.Cell(i + 2, baseCol + d).Value = row.Days[d];
+                        {
+                            ws.Cell(i + 2, baseCol + d * 2).Value = row.Days[d];
+                            ws.Cell(i + 2, baseCol + d * 2 + 1).Value = row.DailyHours[d];
+                        }
 
                         ws.Cell(i + 2, offset).Value = row.TotalY;
                         ws.Cell(i + 2, offset + 1).Value = row.TotalO;
@@ -398,6 +431,7 @@ namespace HRApp.Views
             public string Position { get; set; }
             public string Department { get; set; }
             public string[] Days { get; set; }
+            public decimal[] DailyHours { get; set; }
 
             private decimal hourRate;
             public decimal HourRate
@@ -417,17 +451,16 @@ namespace HRApp.Views
             public int TotalK => Days.Count(d => d == "К");
             public int TotalN => Days.Count(d => d == "Н");
 
-            private const int HoursPerDay = 8;
-
-            public int HoursFirstHalf => Enumerable.Range(0, Math.Min(15, Days.Length))
-                .Count(i => Days[i] == "Я") * HoursPerDay;
-            public int HoursSecondHalf => Enumerable.Range(Math.Min(15, Days.Length),
-                    Math.Max(0, Days.Length - 15))
-                .Count(i => Days[i] == "Я") * HoursPerDay;
-            public int TotalHours => HoursFirstHalf + HoursSecondHalf;
+            public decimal HoursFirstHalf => DailyHours
+                .Take(Math.Min(15, DailyHours.Length))
+                .Sum();
+            public decimal HoursSecondHalf => DailyHours
+                .Skip(Math.Min(15, DailyHours.Length))
+                .Sum();
+            public decimal TotalHours => HoursFirstHalf + HoursSecondHalf;
 
             public int AbsenceDays => Days.Count(d => string.IsNullOrEmpty(d) || d == "Н");
-            public int AbsenceHours => AbsenceDays * HoursPerDay;
+            public decimal AbsenceHours => DailyHours.Sum();
 
             public void ForceRecalculate()
             {
