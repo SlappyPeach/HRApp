@@ -218,6 +218,14 @@ namespace HRApp.Views
                             doc.ReplaceText("<Department>", department);
                             doc.ReplaceText("<Position>", position);
                             doc.ReplaceText("<Base>", orderModel.Base);
+
+                            var agreement = context.Agreements.FirstOrDefault(a => a.Id == orderModel.AgreementId) ??
+                                            context.Agreements.FirstOrDefault(a => a.EmployeeId == orderModel.EmployeeId && a.AgreementDate == orderModel.StartDate);
+                            if (agreement != null)
+                            {
+                                doc.ReplaceText("<Salary>", agreement.Salary.ToString("F2"));
+                                doc.ReplaceText("<Probation>", agreement.Probation ? "Да" : "Нет");
+                            }
                             break;
                         case "orderDismissal.docx":
                             doc.ReplaceText("<RegNumber>", orderModel.RegNumber);
@@ -301,6 +309,11 @@ namespace HRApp.Views
                             doc.ReplaceText("<DocDate>", orderModel.DocDate.ToString("dd.MM.yyyy"));
                             doc.ReplaceText("<Department>", department);
                             doc.ReplaceText("<Position>", position);
+                            doc.ReplaceText("<MoveType>", orderModel.MoveType ?? string.Empty);
+                            doc.ReplaceText("<NewDepartment>", orderModel.NewDepartment ?? string.Empty);
+                            doc.ReplaceText("<NewPosition>", orderModel.NewPosition ?? string.Empty);
+                            if (orderModel.Probation.HasValue)
+                                doc.ReplaceText("<Probation>", orderModel.Probation.Value ? "Да" : "Нет");
                             break;
                     }
 

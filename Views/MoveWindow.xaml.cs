@@ -113,7 +113,10 @@ namespace HRApp.Views
                 Content = "Приказ о переводе",
                 DocDate = DateTime.Today,
                 Base = baseText,
-                RegNumber = OrderNumberGenerator.Generate(context, "ПЕР")
+                RegNumber = OrderNumberGenerator.Generate(context, "ПЕР"),
+                MoveType = moveType,
+                NewDepartment = newDepartment,
+                NewPosition = newPosition
             };
             context.Orders.Add(order);
 

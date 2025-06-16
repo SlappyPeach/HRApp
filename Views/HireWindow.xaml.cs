@@ -149,6 +149,9 @@ namespace HRApp.Views
                 EmployeeId = employee.Id
             };
 
+            context.Agreements.Add(agreement);
+            context.SaveChanges();
+
             var order = new Order
             {
                 EmployeeId = employee.Id,
@@ -156,7 +159,8 @@ namespace HRApp.Views
                 Content = "Приказ о приёме",
                 DocDate = DateTime.Today,
                 Base = "-",
-                RegNumber = OrderNumberGenerator.Generate(context, "ПРИ")
+                RegNumber = OrderNumberGenerator.Generate(context, "ПРИ"),
+                AgreementId = agreement.Id
             };
 
             context.Agreements.Add(agreement);
