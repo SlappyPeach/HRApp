@@ -451,16 +451,57 @@ namespace HRApp.Views
             public int TotalK => Days.Count(d => d == "К");
             public int TotalN => Days.Count(d => d == "Н");
 
-            public decimal HoursFirstHalf => DailyHours
-                .Take(Math.Min(15, DailyHours.Length))
-                .Sum();
-            public decimal HoursSecondHalf => DailyHours
-                .Skip(Math.Min(15, DailyHours.Length))
-                .Sum();
+            public decimal HoursFirstHalf
+            {
+                get
+                {
+                    if (EmployeeName == "ИТОГО:")
+                        return DailyHours.Take(Math.Min(15, DailyHours.Length)).Sum();
+
+                    return Enumerable.Range(0, Math.Min(15, DailyHours.Length))
+                        .Where(i => Days[i] == "Я")
+                        .Sum(i => DailyHours[i]);
+                }
+            }
+
+            public decimal HoursSecondHalf
+            {
+                get
+                {
+                    if (EmployeeName == "ИТОГО:")
+                        return DailyHours.Skip(Math.Min(15, DailyHours.Length)).Sum();
+
+                    return Enumerable.Range(Math.Min(15, DailyHours.Length), DailyHours.Length - Math.Min(15, DailyHours.Length))
+                        .Where(i => Days[i] == "Я")
+                        .Sum(i => DailyHours[i]);
+                }
+            }
+
             public decimal TotalHours => HoursFirstHalf + HoursSecondHalf;
 
-            public int AbsenceDays => Days.Count(d => string.IsNullOrEmpty(d) || d == "Н");
-            public decimal AbsenceHours => DailyHours.Sum();
+            public int AbsenceDays
+            {
+                get
+                {
+                    if (EmployeeName == "ИТОГО:")
+                        return 0;
+
+                    return Days.Count(d => d != "Я" && d != "В");
+                }
+            }
+
+            public decimal AbsenceHours
+            {
+                get
+                {
+                    if (EmployeeName == "ИТОГО:")
+                        return DailyHours.Sum();
+
+                    return Enumerable.Range(0, DailyHours.Length)
+                        .Where(i => Days[i] != "Я")
+                        .Sum(i => DailyHours[i]);
+                }
+            }
 
             public void ForceRecalculate()
             {
