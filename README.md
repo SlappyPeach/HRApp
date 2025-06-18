@@ -23,6 +23,7 @@ exported to Word or Excel using built‑in templates.
 - Orders for hiring, transfers, dismissal, vacations, business trips and sick leaves.
 - Automatic order numbering (`PREFIX-YEAR-NUMBER`).
 - Export of orders to Word using templates.
+- Travel certificate (T-10) generation for business trips.
 - Employment contract generation from templates.
 
 ### Documents and journals

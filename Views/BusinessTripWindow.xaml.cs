@@ -166,10 +166,60 @@ namespace HRApp.Views
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Приказ сохранён.");
+
+                    GenerateTripCertificate(selectedEmployee, position, startDate, endDate,
+                        DestinationTextBox.Text.Trim(), PurposeTextBox.Text.Trim(),
+                        regNumber);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ошибка экспорта: {ex.Message}");
+                }
+            }
+        }
+
+        private void GenerateTripCertificate(Employee employee, string position,
+            DateTime startDate, DateTime endDate, string destination,
+            string purpose, string orderNumber)
+        {
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "Templates", "Reports_T-10a.docx");
+            if (!File.Exists(templatePath))
+            {
+                MessageBox.Show($"Шаблон справки не найден по пути:\n{templatePath}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Word Document (*.docx)|*.docx",
+                FileName = $"T10_{employee.Surename}.docx"
+            };
+
+            if (sfd.ShowDialog() == true)
+            {
+                try
+                {
+                    var doc = DocX.Load(templatePath);
+
+                    string employeeName = $"{employee.Surename} {employee.FirstName} {employee.SecondName}".Trim();
+
+                    doc.ReplaceText("<EmployeeName>", employeeName);
+                    doc.ReplaceText("<Position>", position);
+                    doc.ReplaceText("<Destination>", destination);
+                    doc.ReplaceText("<Purpose>", purpose);
+                    doc.ReplaceText("<TripStart>", startDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<TripEnd>", endDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<OrderNumber>", orderNumber);
+                    doc.ReplaceText("<OrderDate>", DateTime.Today.ToString("dd.MM.yyyy"));
+
+                    doc.SaveAs(sfd.FileName);
+                    MessageBox.Show("Справка сохранена.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка экспорта справки: {ex.Message}");
                 }
             }
         }
