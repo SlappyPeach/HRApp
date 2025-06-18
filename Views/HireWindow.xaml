@@ -128,7 +128,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Ставка" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                    <TextBox x:Name="RateTextBox" Grid.Column="1"/>
+                    <ComboBox x:Name="RateComboBox" Grid.Column="1" SelectionChanged="RateComboBox_SelectionChanged"/>
                 </Grid>
 
                 <Grid x:Name="CategoryGrid" Margin="0,5" Visibility="Collapsed">

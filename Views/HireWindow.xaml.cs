@@ -15,6 +15,7 @@ namespace HRApp.Views
     public partial class HireWindow : Window
     {
         private Dictionary<string, decimal> positionSalaryMap = new();
+        private decimal baseSalary = 0m;
 
         public HireWindow()
         {
@@ -29,6 +30,9 @@ namespace HRApp.Views
             // Загрузка справочников
             AgreementTypeComboBox.ItemsSource = new List<string> { "Основной", "По совместительству", "Срочный договор" };
             ProbationComboBox.ItemsSource = new List<string> { "3 месяца", "6 месяцев", "Без испытательного срока" };
+            RateComboBox.ItemsSource = new List<decimal> { 1m, 0.75m, 0.5m, 0.25m };
+            RateComboBox.SelectionChanged += RateComboBox_SelectionChanged;
+            RateComboBox.SelectedIndex = 0;
 
             var departments = context.Departments.Select(d => d.Name).ToList();
             DepartmentComboBox.ItemsSource = departments;
@@ -64,7 +68,7 @@ namespace HRApp.Views
             LoadGrid.Visibility = Visibility.Collapsed;
             CategoryGrid.Visibility = Visibility.Collapsed;
             LoadTextBox.Text = "";
-            RateTextBox.Text = "";
+            RateComboBox.SelectedIndex = 0;
         }
 
         private void PositionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,9 +83,28 @@ namespace HRApp.Views
             CategoryGrid.Visibility = isPedagogical ? Visibility.Visible : Visibility.Collapsed;
 
             if (positionSalaryMap.TryGetValue(positionTitle, out var salary))
-                SalaryTextBox.Text = salary.ToString("F2");
+            {
+                baseSalary = salary;
+                UpdateSalaryDisplay();
+            }
             else
+            {
+                baseSalary = 0m;
                 SalaryTextBox.Text = "";
+            }
+        }
+
+        private void RateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSalaryDisplay();
+        }
+
+        private void UpdateSalaryDisplay()
+        {
+            if (!decimal.TryParse(RateComboBox.SelectedItem?.ToString(), out var rate))
+                rate = 1m;
+
+            SalaryTextBox.Text = (baseSalary * rate).ToString("F2");
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -137,7 +160,7 @@ namespace HRApp.Views
             context.SaveChanges();
 
             bool pedagogical = DepartmentComboBox.Text == "Педагогический персонал";
-            decimal.TryParse(RateTextBox.Text, out var genRate);
+            decimal.TryParse(RateComboBox.Text, out var genRate);
 
             var agreement = new Agreement
             {
@@ -227,9 +250,9 @@ namespace HRApp.Views
             // Только для "Педагогический персонал"
             bool isPedagogical = DepartmentComboBox.Text == "Педагогический персонал";
             doc.ReplaceText("<load>", isPedagogical ? LoadTextBox.Text : "");
-            doc.ReplaceText("<rate>", isPedagogical ? RateTextBox.Text : "");
+            doc.ReplaceText("<rate>", isPedagogical ? RateComboBox.Text : "");
             doc.ReplaceText("<Category>", isPedagogical ? CategoryComboBox.Text : "");
-            doc.ReplaceText("<GeneralRate>", RateTextBox.Text);
+            doc.ReplaceText("<GeneralRate>", RateComboBox.Text);
             doc.SaveAs(outputPath);
             MessageBox.Show($"Трудовой договор сохранён:\n{outputPath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -260,7 +283,7 @@ namespace HRApp.Views
             doc.ReplaceText("<Probation>", ProbationComboBox.Text);
             doc.ReplaceText("<HireDate>", WorkStartDateTextBox.Text);
             doc.ReplaceText("<TabNumber>", employee.TabNumber ?? "");
-            doc.ReplaceText("<GeneralRate>", RateTextBox.Text);
+            doc.ReplaceText("<GeneralRate>", RateComboBox.Text);
             doc.ReplaceText("<Category>", DepartmentComboBox.Text == "Педагогический персонал" ? CategoryComboBox.Text : "");
             doc.SaveAs(outputPath);
             MessageBox.Show($"Приказ о приёме сохранён:\n{outputPath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
