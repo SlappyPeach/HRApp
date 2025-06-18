@@ -47,6 +47,7 @@ namespace HRApp.Views
             var vacations = context.Vacations.ToList();
             var trips = context.BusinessTrips.ToList();
             var sickLeaves = context.SickLeaves.ToList();
+            var agreements = context.Agreements.ToList();
             var absenceRecords = context.AbsenceRecords
                 .Where(r => r.Year == year && r.Month == month)
                 .ToList();
@@ -59,6 +60,14 @@ namespace HRApp.Views
                 var department = departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "-";
                 var position = positions.FirstOrDefault(p => p.Id == emp.PositionId)?.Title ?? "-";
 
+                var agreement = agreements
+                    .Where(a => a.EmployeeId == emp.Id)
+                    .OrderByDescending(a => a.AgreementDate)
+                    .FirstOrDefault();
+                decimal hourRate = agreement != null
+                    ? agreement.Salary / 160m
+                    : (salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount ?? 0m) / 160m;
+
                 var entry = new TimeSheetEntry
                 {
                     EmployeeName = $"{emp.Surename} {emp.FirstName} {emp.SecondName}".Trim(),
@@ -66,7 +75,7 @@ namespace HRApp.Views
                     Department = department,
                     Days = new string[daysInMonth],
                     DailyHours = new decimal[daysInMonth],
-                    HourRate = (salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount ?? 0m) / 160m
+                    HourRate = hourRate
                 };
 
                 for (int i = 0; i < daysInMonth; i++)
