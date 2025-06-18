@@ -117,10 +117,10 @@ namespace HRApp.Views
                     {
                         Номер = s.RegNumber,
                         Сотрудник = emp != null ? $"{emp.Surename} {emp.FirstName} {emp.SecondName}" : "—",
+                        Дата_Выдачи = s.RegDate.ToShortDateString(),
                         С = s.FromDate.ToShortDateString(),
                         По = s.ToDate.ToShortDateString(),
-                        МедицинскоеУчреждение = s.MedStateName,
-                        Лицензия = s.LicenseNumber
+                        Доп_Информация = s.Info
                     };
                 }).ToList<dynamic>();
 
