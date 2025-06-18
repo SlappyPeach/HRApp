@@ -318,39 +318,8 @@ namespace HRApp.Views
         {
             if (!ValidateFields()) return;
 
-            // Заполнение модели из полей
-            currentEmployee.Surename = SurenameTextBox.Text.Trim();
-            currentEmployee.FirstName = FirstNameTextBox.Text.Trim();
-            currentEmployee.SecondName = SecondNameTextBox.Text.Trim();
-            currentEmployee.BirthPlace = BirthPlaceTextBox.Text.Trim();
-            currentEmployee.BirthPlaceOKATO = BirthPlaceOKATOTextBox.Text.Trim();
-            currentEmployee.Sex = (SexComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            currentEmployee.Citizenship = CitizenshipTextBox.Text.Trim();
-            currentEmployee.CitizenshipOKIN = CitizenshipOKINTextBox.Text.Trim();
-            currentEmployee.PassportType = PassportTypeTextBox.Text.Trim();
-            currentEmployee.PassportNumber = PassportNumberTextBox.Text.Trim();
-            currentEmployee.PassportPlace = PassportPlaceTextBox.Text.Trim();
-            currentEmployee.INN = INNTextBox.Text.Trim();
-            currentEmployee.SNILS = SNILSTextBox.Text.Trim();
-            currentEmployee.Address1 = Address1TextBox.Text.Trim();
-            currentEmployee.Index1 = Index1TextBox.Text.Trim();
-            currentEmployee.Address2 = Address2TextBox.Text.Trim();
-            currentEmployee.Index2 = Index2TextBox.Text.Trim();
-            currentEmployee.TelNumber = TelNumberTextBox.Text.Trim();
-            currentEmployee.FamilyStatus = FamilyStatusTextBox.Text.Trim();
-            currentEmployee.NomerScheta = NomerSchetaTextBox.Text.Trim();
-            currentEmployee.BIK = BIKTextBox.Text.Trim();
-            currentEmployee.Korschet = KorschetTextBox.Text.Trim();
-            currentEmployee.KPP = KPPTextBox.Text.Trim();
-
-            DateTime.TryParse(BirthDateTextBox.Text, out var birthDate);
-            currentEmployee.BirthDate = birthDate;
-
-            DateTime.TryParse(PassportDateTextBox.Text, out var passDate);
-            currentEmployee.PassportDate = passDate;
-
-            DateTime.TryParse(Address1DateTextBox.Text, out var regDate);
-            currentEmployee.Address1Date = regDate;
+            // Обновляем текущую модель данными из формы
+            UpdateEmployeeFromFields();
 
             using var context = new HRDbContext();
             if (currentEmployee.Id == 0)
@@ -405,6 +374,42 @@ namespace HRApp.Views
             }
         }
 
+        private void UpdateEmployeeFromFields()
+        {
+            currentEmployee.Surename = SurenameTextBox.Text.Trim();
+            currentEmployee.FirstName = FirstNameTextBox.Text.Trim();
+            currentEmployee.SecondName = SecondNameTextBox.Text.Trim();
+            currentEmployee.BirthPlace = BirthPlaceTextBox.Text.Trim();
+            currentEmployee.BirthPlaceOKATO = BirthPlaceOKATOTextBox.Text.Trim();
+            currentEmployee.Sex = (SexComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            currentEmployee.Citizenship = CitizenshipTextBox.Text.Trim();
+            currentEmployee.CitizenshipOKIN = CitizenshipOKINTextBox.Text.Trim();
+            currentEmployee.PassportType = PassportTypeTextBox.Text.Trim();
+            currentEmployee.PassportNumber = PassportNumberTextBox.Text.Trim();
+            currentEmployee.PassportPlace = PassportPlaceTextBox.Text.Trim();
+            currentEmployee.INN = INNTextBox.Text.Trim();
+            currentEmployee.SNILS = SNILSTextBox.Text.Trim();
+            currentEmployee.Address1 = Address1TextBox.Text.Trim();
+            currentEmployee.Index1 = Index1TextBox.Text.Trim();
+            currentEmployee.Address2 = Address2TextBox.Text.Trim();
+            currentEmployee.Index2 = Index2TextBox.Text.Trim();
+            currentEmployee.TelNumber = TelNumberTextBox.Text.Trim();
+            currentEmployee.FamilyStatus = FamilyStatusTextBox.Text.Trim();
+            currentEmployee.NomerScheta = NomerSchetaTextBox.Text.Trim();
+            currentEmployee.BIK = BIKTextBox.Text.Trim();
+            currentEmployee.Korschet = KorschetTextBox.Text.Trim();
+            currentEmployee.KPP = KPPTextBox.Text.Trim();
+
+            DateTime.TryParse(BirthDateTextBox.Text, out var birthDate);
+            currentEmployee.BirthDate = birthDate;
+
+            DateTime.TryParse(PassportDateTextBox.Text, out var passDate);
+            currentEmployee.PassportDate = passDate;
+
+            DateTime.TryParse(Address1DateTextBox.Text, out var regDate);
+            currentEmployee.Address1Date = regDate;
+        }
+
         private void Dismiss_Click(object sender, RoutedEventArgs e)
         {
             currentEmployee.DismissalDate = DateTime.Today;
@@ -447,6 +452,9 @@ namespace HRApp.Views
         {
             var sfd = new SaveFileDialog { Filter = "Word Files (*.docx)|*.docx", FileName = "T2Form.docx" };
             if (sfd.ShowDialog() != true) return;
+
+            // Переносим введённые данные из формы в объект сотрудника
+            UpdateEmployeeFromFields();
 
             string template = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "table_T-2.docx");
             if (!File.Exists(template))

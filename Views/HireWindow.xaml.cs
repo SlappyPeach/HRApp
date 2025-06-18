@@ -201,6 +201,23 @@ namespace HRApp.Views
 
             context.SaveChanges();
 
+            // Новая запись в трудовой книжке
+            var historyEntry = new EmploymentHistory
+            {
+                RecordNumber = context.EmploymentHistories
+                    .Where(h => h.EmployeeId == employee.Id)
+                    .Count() + 1,
+                Date = workStartDate,
+                WorkPlaceName = "Организация",
+                Position = PositionComboBox.Text,
+                Content = "Принят на работу",
+                Reason = order.RegNumber,
+                EmployeeId = employee.Id
+            };
+
+            context.EmploymentHistories.Add(historyEntry);
+            context.SaveChanges();
+
             GenerateContractForEmployee(employee, agreement);
             GenerateOrderForEmployee(employee, order);
             MessageBox.Show("Сотрудник успешно принят.");

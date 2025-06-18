@@ -203,16 +203,13 @@ namespace HRApp.Views
                 {
                     var doc = DocX.Load(templatePath);
 
-                    string employeeName = $"{employee.Surename} {employee.FirstName} {employee.SecondName}".Trim();
-
-                    doc.ReplaceText("<EmployeeName>", employeeName);
-                    doc.ReplaceText("<Position>", position);
+                    doc.ReplaceText("<Surename>", employee.Surename ?? string.Empty);
+                    doc.ReplaceText("<FirstName>", employee.FirstName ?? string.Empty);
+                    doc.ReplaceText("<SecondName>", employee.SecondName ?? string.Empty);
                     doc.ReplaceText("<Destination>", destination);
-                    doc.ReplaceText("<Purpose>", purpose);
-                    doc.ReplaceText("<TripStart>", startDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<TripEnd>", endDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<OrderNumber>", orderNumber);
-                    doc.ReplaceText("<OrderDate>", DateTime.Today.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<StartDate>", startDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<EndDate>", endDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<DocDate>", DateTime.Today.ToString("dd.MM.yyyy"));
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Справка сохранена.");
