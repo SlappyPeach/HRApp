@@ -262,6 +262,16 @@ namespace HRApp.Views
                 totalRow.DailyHours[d] = timeSheetData.Take(timeSheetData.Count - 1).Sum(e => e.DailyHours[d]);
             }
 
+            totalRow.SummaryAbsenceDays = timeSheetData
+                .Take(timeSheetData.Count - 1)
+                .Sum(e => e.Days.Count(d => d != "Я" && d != "В"));
+
+            totalRow.SummaryAbsenceHours = timeSheetData
+                .Take(timeSheetData.Count - 1)
+                .Sum(e => Enumerable.Range(0, e.DailyHours.Length)
+                                   .Where(i => e.Days[i] != "Я")
+                                   .Sum(i => e.DailyHours[i]));
+
             foreach (var row in timeSheetData)
             {
                 row.ForceRecalculate();
@@ -433,6 +443,9 @@ namespace HRApp.Views
             public string[] Days { get; set; }
             public decimal[] DailyHours { get; set; }
 
+            internal int SummaryAbsenceDays { get; set; }
+            internal decimal SummaryAbsenceHours { get; set; }
+
             private decimal hourRate;
             public decimal HourRate
             {
@@ -484,7 +497,7 @@ namespace HRApp.Views
                 get
                 {
                     if (EmployeeName == "ИТОГО:")
-                        return 0;
+                        return SummaryAbsenceDays;
 
                     return Days.Count(d => d != "Я" && d != "В");
                 }
@@ -495,7 +508,7 @@ namespace HRApp.Views
                 get
                 {
                     if (EmployeeName == "ИТОГО:")
-                        return DailyHours.Sum();
+                        return SummaryAbsenceHours;
 
                     return Enumerable.Range(0, DailyHours.Length)
                         .Where(i => Days[i] != "Я")
