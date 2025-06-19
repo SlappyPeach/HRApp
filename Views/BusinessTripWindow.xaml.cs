@@ -211,6 +211,8 @@ namespace HRApp.Views
                     doc.ReplaceText("<Servicenumber>", employee.TabNumber ?? string.Empty);
                     doc.ReplaceText("<workplacetype>", department);
                     doc.ReplaceText("<work>", position);
+                    doc.ReplaceText("<aimPlace>", destination);
+                    doc.ReplaceText("<Purpose>", purpose);
                     doc.ReplaceText("<tripDays>", ((endDate - startDate).Days + 1).ToString());
                     doc.ReplaceText("<sd>", startDate.ToString("dd"));
                     doc.ReplaceText("<smonth>", MonthName(startDate));

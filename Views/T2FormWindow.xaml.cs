@@ -588,7 +588,7 @@ namespace HRApp.Views
                 new[] { "Родство", "ФИО", "Год рождения", "Пол", "Налоговый вычет" },
                 FamilyList.Select(f => new[] { f.Relation, f.FIO, f.BirthYear.ToString(), f.Gender ?? "", f.HasTaxBenefit ? "Да" : "Нет" }));
 
-            InsertTableAtBookmark(doc, "CERT_TABLE",
+            InsertTableAtBookmark(doc, "CERTIFICATION_TABLE",
                 new[] { "Дата аттестации", "Решение", "Категория", "Документ", "Дата следующей" },
                 CertificationList.Select(c => new[] {
                     c.Date.ToShortDateString(), c.Resolution, c.Category,
