@@ -28,7 +28,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Фамилия" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="SurenameTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="SurenameTextBox" Grid.Column="1" Text="{Binding Employee.Surename, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -36,7 +36,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Имя" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="FirstNameTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="FirstNameTextBox" Grid.Column="1" Text="{Binding Employee.FirstName, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -44,7 +44,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Отчество" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="SecondNameTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="SecondNameTextBox" Grid.Column="1" Text="{Binding Employee.SecondName, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -52,7 +52,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Дата рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="BirthDateTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="BirthDateTextBox" Grid.Column="1" Text="{Binding Employee.BirthDate, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -60,7 +60,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Место рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="BirthPlaceTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="BirthPlaceTextBox" Grid.Column="1" Text="{Binding Employee.BirthPlace, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -68,7 +68,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="ОКАТО места рождения" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="BirthPlaceOKATOTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="BirthPlaceOKATOTextBox" Grid.Column="1" Text="{Binding Employee.BirthPlaceOKATO, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -76,7 +76,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Пол" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="SexComboBox" Grid.Column="1">
+                            <ComboBox x:Name="SexComboBox" Grid.Column="1" SelectedItem="{Binding Employee.Sex, Mode=TwoWay}" >
                                 <ComboBoxItem Content="Мужской"/>
                                 <ComboBoxItem Content="Женский"/>
                             </ComboBox>
@@ -87,7 +87,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Гражданство" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="CitizenshipTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="CitizenshipTextBox" Grid.Column="1" Text="{Binding Employee.Citizenship, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -95,7 +95,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="ОКИН гражданства" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="CitizenshipOKINTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="CitizenshipOKINTextBox" Grid.Column="1" Text="{Binding Employee.CitizenshipOKIN, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -119,7 +119,7 @@
                 <!-- Владение языками -->
                 <Expander Header="Владение языками" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <DataGrid x:Name="LanguageDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                        <DataGrid ItemsSource="{Binding LanguageList}" x:Name="LanguageDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Язык *" Binding="{Binding LanguageName}" Width="*"/>
                                 <DataGridTextColumn Header="Уровень *" Binding="{Binding LanguageLevel}" Width="*"/>
@@ -136,7 +136,7 @@
                 <!-- Образование -->
                 <Expander Header="Образование" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <DataGrid x:Name="EducationDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                        <DataGrid ItemsSource="{Binding EducationList}" x:Name="EducationDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="Уровень *" SelectedItemBinding="{Binding EducationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*">
                                     <DataGridComboBoxColumn.ItemsSource>
@@ -169,7 +169,7 @@
                 <!-- Семья -->
                 <Expander Header="Семья" IsExpanded="False" Margin="0,0,0,5">
                     <StackPanel Margin="20">
-                        <DataGrid x:Name="FamilyDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
+                        <DataGrid ItemsSource="{Binding FamilyList}" x:Name="FamilyDataGrid" AutoGenerateColumns="False" Margin="0,0,0,5">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Степень родства *" Binding="{Binding Relation}" Width="*"/>
                                 <DataGridTextColumn Header="ФИО *" Binding="{Binding FIO}" Width="*"/>
@@ -202,7 +202,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Тип документа" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="PassportTypeTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="PassportTypeTextBox" Grid.Column="1" Text="{Binding Employee.PassportType, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -210,7 +210,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Серия и номер паспорта" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="PassportNumberTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="PassportNumberTextBox" Grid.Column="1" Text="{Binding Employee.PassportNumber, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -218,7 +218,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Дата выдачи" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="PassportDateTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="PassportDateTextBox" Grid.Column="1" Text="{Binding Employee.PassportDate, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -226,7 +226,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Кем выдан" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="PassportPlaceTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="PassportPlaceTextBox" Grid.Column="1" Text="{Binding Employee.PassportPlace, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -234,7 +234,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="ИНН" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="INNTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="INNTextBox" Grid.Column="1" Text="{Binding Employee.INN, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -242,7 +242,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="СНИЛС" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="SNILSTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="SNILSTextBox" Grid.Column="1" Text="{Binding Employee.SNILS, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </StackPanel>
                 </Expander>
@@ -256,7 +256,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Почтовый индекс (прописка)" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="Index1TextBox" Grid.Column="1"/>
+                            <TextBox x:Name="Index1TextBox" Grid.Column="1" Text="{Binding Employee.Index1, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -264,7 +264,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Адрес прописки" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="Address1TextBox" Grid.Column="1"/>
+                            <TextBox x:Name="Address1TextBox" Grid.Column="1" Text="{Binding Employee.Address1, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -272,7 +272,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Дата регистрации" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="Address1DateTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="Address1DateTextBox" Grid.Column="1" Text="{Binding Employee.Address1Date, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -280,7 +280,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Почтовый индекс (факт.)" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="Index2TextBox" Grid.Column="1"/>
+                            <TextBox x:Name="Index2TextBox" Grid.Column="1" Text="{Binding Employee.Index2, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -288,7 +288,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Адрес проживания" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="Address2TextBox" Grid.Column="1"/>
+                            <TextBox x:Name="Address2TextBox" Grid.Column="1" Text="{Binding Employee.Address2, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -296,7 +296,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Номер телефона" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="TelNumberTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="TelNumberTextBox" Grid.Column="1" Text="{Binding Employee.TelNumber, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -304,7 +304,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Семейное положение" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="FamilyStatusTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="FamilyStatusTextBox" Grid.Column="1" Text="{Binding Employee.FamilyStatus, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </StackPanel>
                 </Expander>
@@ -398,7 +398,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Номер счёта" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="NomerSchetaTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="NomerSchetaTextBox" Grid.Column="1" Text="{Binding Employee.NomerScheta, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -414,7 +414,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="БИК" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="BIKTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="BIKTextBox" Grid.Column="1" Text="{Binding Employee.BIK, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -422,7 +422,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Корреспондентский счёт" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="KorschetTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="KorschetTextBox" Grid.Column="1" Text="{Binding Employee.Korschet, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -430,7 +430,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="КПП" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                            <TextBox x:Name="KPPTextBox" Grid.Column="1"/>
+                            <TextBox x:Name="KPPTextBox" Grid.Column="1" Text="{Binding Employee.KPP, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         <Grid Margin="0,5">
                             <Grid.ColumnDefinitions>
@@ -535,9 +535,9 @@
 
         <!-- Нижняя панель кнопок -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Экспорт" Click="ExportDocx_Click" Margin="5"/>
-            <Button Content="Сохранить" Click="Save_Click" Margin="5"/>
-            <Button Content="Уволить" Click="Dismiss_Click" Margin="5" Background="DarkRed" Foreground="White"/>
+            <Button Content="Экспорт" Command="{Binding ExportCommand}" Margin="5"/>
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
+            <Button Content="Уволить" Command="{Binding DismissCommand}" Margin="5" Background="DarkRed" Foreground="White"/>
             <Button Content="Закрыть" Click="Close_Click" Margin="5"/>
         </StackPanel>
     </Grid>
