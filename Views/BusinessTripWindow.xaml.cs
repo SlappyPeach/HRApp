@@ -183,10 +183,10 @@ namespace HRApp.Views
             string purpose, string orderNumber)
         {
             string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "Templates", "Reports_T-10a.docx");
+                "Templates", "travelCertificate_T10.docx");
             if (!File.Exists(templatePath))
             {
-                MessageBox.Show($"Шаблон справки не найден по пути:\n{templatePath}",
+                MessageBox.Show($"Шаблон удостоверения не найден по пути:\n{templatePath}",
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -203,20 +203,23 @@ namespace HRApp.Views
                 {
                     var doc = DocX.Load(templatePath);
 
-                    doc.ReplaceText("<Surename>", employee.Surename ?? string.Empty);
-                    doc.ReplaceText("<FirstName>", employee.FirstName ?? string.Empty);
-                    doc.ReplaceText("<SecondName>", employee.SecondName ?? string.Empty);
+                    string employeeName = $"{employee.Surename} {employee.FirstName} {employee.SecondName}".Trim();
+
+                    doc.ReplaceText("<EmployeeName>", employeeName);
+                    doc.ReplaceText("<Position>", position);
                     doc.ReplaceText("<Destination>", destination);
-                    doc.ReplaceText("<StartDate>", startDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<EndDate>", endDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<DocDate>", DateTime.Today.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<Purpose>", purpose);
+                    doc.ReplaceText("<TripStart>", startDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<TripEnd>", endDate.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<OrderNumber>", orderNumber);
+                    doc.ReplaceText("<OrderDate>", DateTime.Today.ToString("dd.MM.yyyy"));
 
                     doc.SaveAs(sfd.FileName);
-                    MessageBox.Show("Справка сохранена.");
+                    MessageBox.Show("Удостоверение сохранено.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка экспорта справки: {ex.Message}");
+                    MessageBox.Show($"Ошибка экспорта удостоверения: {ex.Message}");
                 }
             }
         }

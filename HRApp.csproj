@@ -20,6 +20,7 @@
     <None Remove="Templates\orderVacation.docx" />
     <None Remove="Templates\Reports_T-10a.docx" />
     <None Remove="Templates\table_T-2.docx" />
+    <None Remove="Templates\travelCertificate_T10.docx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +70,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\table_T-2.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\travelCertificate_T10.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
