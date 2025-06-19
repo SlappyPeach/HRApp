@@ -337,6 +337,15 @@ namespace HRApp.Views
         {
             if (!ValidateFields()) return;
 
+            // Завершаем редактирование во всех таблицах
+            EducationDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            FamilyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            LanguageDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            CertificationDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            CourseDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            AwardDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            BenefitDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
             // Обновляем текущую модель данными из формы
             UpdateEmployeeFromFields();
 
@@ -357,8 +366,7 @@ namespace HRApp.Views
             SaveDynamicData(context);
             context.SaveChanges();
             MessageBox.Show("Сохранено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
-
+            
         }
 
         private void SaveDynamicData(HRDbContext context)
