@@ -167,9 +167,9 @@ namespace HRApp.Views
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Приказ сохранён.");
 
-                    GenerateTripCertificate(selectedEmployee, position, startDate, endDate,
-                        DestinationTextBox.Text.Trim(), PurposeTextBox.Text.Trim(),
-                        regNumber);
+                    GenerateTripCertificate(selectedEmployee, position, department,
+                        startDate, endDate, DestinationTextBox.Text.Trim(),
+                        PurposeTextBox.Text.Trim(), regNumber);
                 }
                 catch (Exception ex)
                 {
@@ -179,8 +179,8 @@ namespace HRApp.Views
         }
 
         private void GenerateTripCertificate(Employee employee, string position,
-            DateTime startDate, DateTime endDate, string destination,
-            string purpose, string orderNumber)
+            string department, DateTime startDate, DateTime endDate,
+            string destination, string purpose, string orderNumber)
         {
             string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Templates", "travelCertificate_T10.docx");
@@ -203,16 +203,23 @@ namespace HRApp.Views
                 {
                     var doc = DocX.Load(templatePath);
 
-                    string employeeName = $"{employee.Surename} {employee.FirstName} {employee.SecondName}".Trim();
+                    string MonthName(DateTime d) => Months[d.Month - 1];
 
-                    doc.ReplaceText("<EmployeeName>", employeeName);
-                    doc.ReplaceText("<Position>", position);
-                    doc.ReplaceText("<Destination>", destination);
-                    doc.ReplaceText("<Purpose>", purpose);
-                    doc.ReplaceText("<TripStart>", startDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<TripEnd>", endDate.ToString("dd.MM.yyyy"));
-                    doc.ReplaceText("<OrderNumber>", orderNumber);
-                    doc.ReplaceText("<OrderDate>", DateTime.Today.ToString("dd.MM.yyyy"));
+                    doc.ReplaceText("<Esurename>", employee.Surename ?? string.Empty);
+                    doc.ReplaceText("<Efirstname>", employee.FirstName ?? string.Empty);
+                    doc.ReplaceText("<Esecondname>", employee.SecondName ?? string.Empty);
+                    doc.ReplaceText("<Servicenumber>", employee.TabNumber ?? string.Empty);
+                    doc.ReplaceText("<workplacetype>", department);
+                    doc.ReplaceText("<work>", position);
+                    doc.ReplaceText("<tripDays>", ((endDate - startDate).Days + 1).ToString());
+                    doc.ReplaceText("<sd>", startDate.ToString("dd"));
+                    doc.ReplaceText("<smonth>", MonthName(startDate));
+                    doc.ReplaceText("<sy>", startDate.ToString("yy"));
+                    doc.ReplaceText("<ed>", endDate.ToString("dd"));
+                    doc.ReplaceText("<emonth>", MonthName(endDate));
+                    doc.ReplaceText("<ey>", endDate.ToString("yy"));
+                    doc.ReplaceText("<regNumber>", orderNumber);
+                    doc.ReplaceText("<DateTime.Now>", DateTime.Today.ToString("dd.MM.yyyy"));
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Удостоверение сохранено.");
