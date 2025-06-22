@@ -8,6 +8,7 @@ using HRApp.Models;
 using Microsoft.Win32;
 using Xceed.Words.NET;
 using ClosedXML.Excel;
+using System.IO;
 
 namespace HRApp.Views
 {
@@ -320,6 +321,10 @@ namespace HRApp.Views
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Экспорт завершён.");
                     System.Diagnostics.Process.Start("explorer.exe", sfd.FileName);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Не удалось сохранить файл. Возможно, он уже открыт в другой программе.");
                 }
                 catch (Exception ex)
                 {

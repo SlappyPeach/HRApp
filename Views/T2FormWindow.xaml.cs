@@ -508,6 +508,15 @@ namespace HRApp.Views
             var sfd = new SaveFileDialog { Filter = "Word Files (*.docx)|*.docx", FileName = "T2Form.docx" };
             if (sfd.ShowDialog() != true) return;
 
+            // Завершаем редактирование во всех таблицах
+            EducationDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            FamilyDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            LanguageDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            CertificationDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            CourseDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            AwardDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            BenefitDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
             // Переносим введённые данные из формы в объект сотрудника
             UpdateEmployeeFromFields();
             UpdateMilitaryDataFromFields();
@@ -626,8 +635,19 @@ namespace HRApp.Views
                 BenefitList.Select(b => new[] { b.Type, b.Document, b.Date.ToShortDateString() }));
 
             // --- Сохранение ---
-            doc.SaveAs(sfd.FileName);
-            MessageBox.Show("Экспорт завершён.");
+            try
+            {
+                doc.SaveAs(sfd.FileName);
+                MessageBox.Show("Экспорт завершён.");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Не удалось сохранить файл. Возможно, он уже открыт в другой программе.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка экспорта: {ex.Message}");
+            }
         }
 
         private void InsertTableAtBookmark(

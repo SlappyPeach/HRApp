@@ -171,6 +171,10 @@ namespace HRApp.Views
                         startDate, endDate, DestinationTextBox.Text.Trim(),
                         PurposeTextBox.Text.Trim(), regNumber);
                 }
+                catch (IOException)
+                {
+                    MessageBox.Show("Не удалось сохранить файл. Возможно, он уже открыт в другой программе.");
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ошибка экспорта: {ex.Message}");
@@ -225,6 +229,10 @@ namespace HRApp.Views
 
                     doc.SaveAs(sfd.FileName);
                     MessageBox.Show("Удостоверение сохранено.");
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Не удалось сохранить файл. Возможно, он уже открыт в другой программе.");
                 }
                 catch (Exception ex)
                 {
