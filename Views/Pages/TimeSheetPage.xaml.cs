@@ -64,9 +64,8 @@ namespace HRApp.Views
                     .Where(a => a.EmployeeId == emp.Id)
                     .OrderByDescending(a => a.AgreementDate)
                     .FirstOrDefault();
-                decimal hourRate = agreement != null
-                    ? agreement.Salary
-                    : salaryRates.FirstOrDefault(s => s.PositionId == emp.PositionId)?.Amount ?? 0m;
+
+                decimal hourRate = agreement?.GeneralRate ?? 1m;
 
                 var entry = new TimeSheetEntry
                 {
