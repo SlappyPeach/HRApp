@@ -131,8 +131,12 @@ namespace HRApp.Views
             LanguageList.Clear();
             foreach (var lang in context.Languages.Where(l => l.EmployeeId == empId))
             {
-                var foreignLang = ForeignLanguagesCache.FirstOrDefault(f => f.OKIN == lang.OKIN);
-                string langName = foreignLang?.LanguageName ?? "Неизвестно";
+                string langName = lang.LanguageName;
+                if (string.IsNullOrWhiteSpace(langName))
+                {
+                    var foreignLang = ForeignLanguagesCache.FirstOrDefault(f => f.OKIN == lang.OKIN);
+                    langName = foreignLang?.LanguageName ?? "Неизвестно";
+                }
                 LanguageList.Add(new LanguageDisplay { LanguageName = langName, LanguageLevel = lang.OKINLevel });
             }
 
@@ -353,6 +357,7 @@ namespace HRApp.Views
             if (currentEmployee.Id == 0)
             {
                 context.Employees.Add(currentEmployee);
+                context.SaveChanges();
             }
             else
             {
@@ -395,6 +400,7 @@ namespace HRApp.Views
                 context.Languages.Add(new Language
                 {
                     OKIN = foreign?.OKIN ?? "",
+                    LanguageName = lang.LanguageName,
                     OKINLevel = lang.LanguageLevel,
                     EmployeeId = currentEmployee.Id
                 });

@@ -12,5 +12,6 @@ namespace HRApp.Models
         public string OKIN { get; set; }
         public string OKINLevel { get; set; }
         public int EmployeeId { get; set; }
+        public string? LanguageName { get; set; }
     }
 }
